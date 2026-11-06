@@ -1,0 +1,3280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ShopSphere Pro - Enterprise E-Commerce Platform</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🛍️</text></svg>">
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="header-inner">
+      <div class="logo-area">
+        <div class="logo-icon">🛍️</div>
+        <div class="logo-text">
+          <h1>ShopSphere Pro</h1>
+          <p>Enterprise Catalog & Commerce Platform (Modules 1 - 50)</p>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <div id="userBadge" class="user-badge">
+          <span>👤 Guest</span>
+          <span class="role-tag">UNAUTHENTICATED</span>
+        </div>
+
+        <div class="btn-group" style="display:flex; gap:0.4rem;">
+          <button class="btn btn-outline-light btn-sm" onclick="quickLogin('admin@shopsphere.com', 'Admin@ShopSphere2026!')">🔑 Super Admin</button>
+          <button class="btn btn-outline-light btn-sm" onclick="quickLogin('employee@shopsphere.com', 'Employee@1234!')">👔 Employee</button>
+          <button class="btn btn-outline-light btn-sm" onclick="quickLogin('customer@shopsphere.com', 'Customer@1234!')">🛒 Customer</button>
+          <button id="logoutBtn" class="btn btn-danger btn-sm" style="display:none;" onclick="handleLogout()">🚪 Logout</button>
+        </div>
+
+        <a href="/docs" target="_blank" class="btn btn-primary btn-sm">📖 Swagger API Docs</a>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+    <!-- Real-time KPIs -->
+    <div class="kpi-grid">
+      <div class="kpi-card" style="border-left-color: #4f46e5;">
+        <h4>Total Users</h4>
+        <div id="kpiUsers" class="value">-</div>
+      </div>
+      <div class="kpi-card" style="border-left-color: #0ea5e9;">
+        <h4>Products</h4>
+        <div id="kpiProducts" class="value">-</div>
+      </div>
+      <div class="kpi-card" style="border-left-color: #10b981;">
+        <h4>Product Variants</h4>
+        <div id="kpiVariants" class="value">-</div>
+      </div>
+      <div class="kpi-card" style="border-left-color: #f59e0b;">
+        <h4>Categories</h4>
+        <div id="kpiCategories" class="value">-</div>
+      </div>
+      <div class="kpi-card" style="border-left-color: #ec4899;">
+        <h4>Total Orders</h4>
+        <div id="kpiOrders" class="value">-</div>
+      </div>
+      <div class="kpi-card" style="border-left-color: #ef4444;">
+        <h4>Restock Alerts</h4>
+        <div id="kpiAlerts" class="value">-</div>
+      </div>
+    </div>
+
+    <!-- Navigation Tabs for 25 Modules -->
+    <div class="tabs-nav">
+      <button class="tab-btn active" onclick="switchTab('tab-auth')">🔐 1. Auth & RBAC</button>
+      <button class="tab-btn" onclick="switchTab('tab-users')">👥 2. User Mgmt</button>
+      <button class="tab-btn" onclick="switchTab('tab-register')">📝 3. Registration</button>
+      <button class="tab-btn" onclick="switchTab('tab-profile')">👤 4. Profiles & Audit</button>
+      <button class="tab-btn" onclick="switchTab('tab-addresses')">📍 5. Addresses</button>
+      <button class="tab-btn" onclick="switchTab('tab-categories')">🗂️ 6. Categories</button>
+      <button class="tab-btn" onclick="switchTab('tab-brands')">🏷️ 7. Brands</button>
+      <button class="tab-btn" onclick="switchTab('tab-products')">📦 8. Products</button>
+      <button class="tab-btn" onclick="switchTab('tab-variants')">🎨 9. Variants</button>
+      <button class="tab-btn" onclick="switchTab('tab-media')">🖼️ 10. Images & Docs</button>
+      <button class="tab-btn" onclick="switchTab('tab-attributes')">🏷️ 11. Attributes</button>
+      <button class="tab-btn" onclick="switchTab('tab-pricing')">💲 12. Pricing</button>
+      <button class="tab-btn" onclick="switchTab('tab-inventory')">📊 13. Inventory</button>
+      <button class="tab-btn" onclick="switchTab('tab-warehouses')">🏭 14. Warehouses</button>
+      <button class="tab-btn" onclick="switchTab('tab-transfers')">🚚 15. Transfers</button>
+      <button class="tab-btn" onclick="switchTab('tab-lowstock')">⚠️ 16. Low Stock</button>
+      <button class="tab-btn" onclick="switchTab('tab-cart')">🛒 17. Cart</button>
+      <button class="tab-btn" onclick="switchTab('tab-cartcalc')">🧮 18. Cart Calc</button>
+      <button class="tab-btn" onclick="switchTab('tab-wishlist')">💖 19. Wishlist</button>
+      <button class="tab-btn" onclick="switchTab('tab-coupons')">🎟️ 20. Coupons</button>
+      <button class="tab-btn" onclick="switchTab('tab-promotions')">🏷️ 21. Promotions</button>
+      <button class="tab-btn" onclick="switchTab('tab-taxes')">🏛️ 22. Taxes</button>
+      <button class="tab-btn" onclick="switchTab('tab-shipping')">✈️ 23. Shipping</button>
+      <button class="tab-btn" onclick="switchTab('tab-checkout')">💳 24. Checkout</button>
+      <button class="tab-btn" onclick="switchTab('tab-orders')">📦 25. Orders</button>
+      <button class="tab-btn" onclick="switchTab('tab-orderitems')">📋 26. Order Items</button>
+      <button class="tab-btn" onclick="switchTab('tab-orderstatus')">🔄 27. Order Status</button>
+      <button class="tab-btn" onclick="switchTab('tab-cancellations')">❌ 28. Cancellations</button>
+      <button class="tab-btn" onclick="switchTab('tab-payments')">💳 29. Payments</button>
+      <button class="tab-btn" onclick="switchTab('tab-transactions')">📜 30. Transactions</button>
+      <button class="tab-btn" onclick="switchTab('tab-refunds')">💵 31. Refunds</button>
+      <button class="tab-btn" onclick="switchTab('tab-cod')">🤝 32. COD Mgmt</button>
+      <button class="tab-btn" onclick="switchTab('tab-shipments')">🚢 33. Shipments</button>
+      <button class="tab-btn" onclick="switchTab('tab-tracking')">📍 34. Tracking</button>
+      <button class="tab-btn" onclick="switchTab('tab-delivery')">🛵 35. Delivery</button>
+      <button class="tab-btn" onclick="switchTab('tab-returns')">↩️ 36. Returns</button>
+      <button class="tab-btn" onclick="switchTab('tab-exchanges')">🔁 37. Exchanges</button>
+      <button class="tab-btn" onclick="switchTab('tab-reviews')">⭐ 38. Reviews & Ratings</button>
+      <button class="tab-btn" onclick="switchTab('tab-qa')">❓ 39. Q & A</button>
+      <button class="tab-btn" onclick="switchTab('tab-tickets')">🎫 40. Support Tickets</button>
+      <button class="tab-btn" onclick="switchTab('tab-notifications')">🔔 41. Notifications</button>
+      <button class="tab-btn" onclick="switchTab('tab-messaging')">✉️ 42. Messaging</button>
+      <button class="tab-btn" onclick="switchTab('tab-suppliers')">🏢 43. Suppliers</button>
+      <button class="tab-btn" onclick="switchTab('tab-po')">📑 44. Purchase Orders</button>
+      <button class="tab-btn" onclick="switchTab('tab-invoices')">🧾 45. Supplier Invoices</button>
+      <button class="tab-btn" onclick="switchTab('tab-audit')">🛡️ 46. Audit Logs</button>
+      <button class="tab-btn" onclick="switchTab('tab-dashboard')">📊 47. Executive Dashboard</button>
+      <button class="tab-btn" onclick="switchTab('tab-analytics')">📈 48. Analytics & Reports</button>
+      <button class="tab-btn" onclick="switchTab('tab-tasks')">⚙️ 49. Background Tasks</button>
+    </div>
+
+    <!-- TAB 1: Authentication & Authorization -->
+    <div id="tab-auth" class="tab-panel active">
+      <div class="panel-header">
+        <div>
+          <div class="panel-title">Module 1: Authentication and Authorization</div>
+          <div class="panel-subtitle">Customer & employee login, JWT access & refresh tokens, token revocation, bcrypt hashing, RBAC.</div>
+        </div>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+        <div>
+          <h3 style="margin-bottom:0.75rem; font-size:1rem;">🔑 Credentials Login</h3>
+          <form id="loginForm" onsubmit="event.preventDefault(); submitLogin();">
+            <div class="form-group" style="margin-bottom:0.75rem;">
+              <label>Email Address</label>
+              <input type="email" id="loginEmail" class="form-control" required placeholder="admin@shopsphere.com">
+            </div>
+            <div class="form-group" style="margin-bottom:0.75rem;">
+              <label>Password</label>
+              <input type="password" id="loginPassword" class="form-control" required placeholder="••••••••">
+            </div>
+            <button type="submit" class="btn btn-primary">Login & Issue Tokens</button>
+          </form>
+
+          <hr style="margin: 1.5rem 0; border: none; border-top: 1px solid var(--gray-200);">
+
+          <h3 style="margin-bottom:0.75rem; font-size:1rem;">🔄 Token Refresh & Revocation</h3>
+          <div style="display: flex; gap: 0.5rem; flex-wrap:wrap;">
+            <button class="btn btn-secondary" onclick="handleRefreshToken()">Refresh Access Token</button>
+            <button class="btn btn-warning" onclick="handleLogout()">Revoke Current Session</button>
+          </div>
+        </div>
+
+        <div>
+          <h3 style="margin-bottom:0.75rem; font-size:1rem;">🛡️ Current Token & RBAC Claims</h3>
+          <pre id="tokenInfoBox" style="background:var(--gray-100); padding:1rem; border-radius:8px; font-size:0.8rem; overflow-x:auto; max-height:280px;">No active session. Please log in.</pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 2: User Management -->
+    <div id="tab-users" class="tab-panel">
+      <div class="panel-header">
+        <div>
+          <div class="panel-title">Module 2: User Management</div>
+          <div class="panel-subtitle">Create, update, deactivate users, assign roles, filter users, and track activity audit logs.</div>
+        </div>
+        <button class="btn btn-primary btn-sm" onclick="showCreateUserModal()">➕ Add User</button>
+      </div>
+
+      <div style="display:flex; gap:0.75rem; margin-bottom:1rem; flex-wrap:wrap;">
+        <input type="text" id="userSearchInput" class="form-control" placeholder="Search by name, email, phone..." style="flex:1;" oninput="loadUsers()">
+        <select id="userRoleFilter" class="form-control" style="width:160px;" onchange="loadUsers()">
+          <option value="">All Roles</option>
+          <option value="SUPER_ADMIN">Super Admin</option>
+          <option value="ADMIN">Admin</option>
+          <option value="EMPLOYEE">Employee</option>
+          <option value="CUSTOMER">Customer</option>
+        </select>
+        <select id="userStatusFilter" class="form-control" style="width:160px;" onchange="loadUsers()">
+          <option value="">All Statuses</option>
+          <option value="ACTIVE">ACTIVE</option>
+          <option value="INACTIVE">INACTIVE</option>
+          <option value="SUSPENDED">SUSPENDED</option>
+          <option value="DEACTIVATED">DEACTIVATED</option>
+        </select>
+      </div>
+
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Email / Phone</th>
+              <th>Role</th>
+              <th>Status</th>
+              <th>Verified</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="usersTableBody">
+            <tr><td colspan="7">Loading users...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- TAB 3: Customer Registration -->
+    <div id="tab-register" class="tab-panel">
+      <div class="panel-header">
+        <div>
+          <div class="panel-title">Module 3: Customer Registration</div>
+          <div class="panel-subtitle">Register new customers, validate email/phone syntax, prevent duplicates, and verify email tokens.</div>
+        </div>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+        <div>
+          <h3 style="margin-bottom:0.75rem; font-size:1rem;">📝 New Customer Onboarding</h3>
+          <form id="regForm" onsubmit="event.preventDefault(); submitRegistration();">
+            <div class="form-grid">
+              <div class="form-group">
+                <label>First Name *</label>
+                <input type="text" id="regFirstName" class="form-control" required placeholder="Jane">
+              </div>
+              <div class="form-group">
+                <label>Last Name *</label>
+                <input type="text" id="regLastName" class="form-control" required placeholder="Doe">
+              </div>
+            </div>
+            <div class="form-group" style="margin-bottom:0.75rem;">
+              <label>Email Address *</label>
+              <input type="email" id="regEmail" class="form-control" required placeholder="jane.doe@example.com">
+            </div>
+            <div class="form-group" style="margin-bottom:0.75rem;">
+              <label>Phone Number (E.164 format) *</label>
+              <input type="text" id="regPhone" class="form-control" required placeholder="+14155552671">
+            </div>
+            <div class="form-group" style="margin-bottom:0.75rem;">
+              <label>Password (Min 8 chars: Upper, Lower, Num, Special) *</label>
+              <input type="password" id="regPassword" class="form-control" required placeholder="SecurePass@2026!">
+            </div>
+            <div class="form-group" style="margin-bottom:1rem;">
+              <label style="display:flex; align-items:center; gap:0.5rem; cursor:pointer;">
+                <input type="checkbox" id="regOptIn"> Subscribe to promotions and updates
+              </label>
+            </div>
+            <button type="submit" class="btn btn-success">Register Customer</button>
+          </form>
+        </div>
+
+        <div>
+          <h3 style="margin-bottom:0.75rem; font-size:1rem;">✉️ Email Verification Simulator</h3>
+          <p style="font-size:0.85rem; color:var(--gray-500); margin-bottom:0.75rem;">
+            When registering, an activation token is generated. Verify tokens below or use the one-click simulated verification.
+          </p>
+          <div class="form-group" style="margin-bottom:0.75rem;">
+            <label>Verification Token</label>
+            <input type="text" id="verifyTokenInput" class="form-control" placeholder="Paste verification token here">
+          </div>
+          <div style="display:flex; gap:0.5rem;">
+            <button class="btn btn-primary" onclick="verifyToken()">Confirm Verification</button>
+            <button class="btn btn-secondary" onclick="resendToken()">Resend Verification Link</button>
+          </div>
+
+          <div id="regResultBox" style="margin-top:1rem; padding:1rem; background:var(--gray-100); border-radius:8px; font-size:0.85rem; display:none;"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 4: Customer Profile Management -->
+    <div id="tab-profile" class="tab-panel">
+      <div class="panel-header">
+        <div>
+          <div class="panel-title">Module 4: Customer Profile Management</div>
+          <div class="panel-subtitle">Manage names, contact info, request account deactivation, and view immutable profile change history.</div>
+        </div>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 1.5rem;">
+        <div>
+          <h3 style="margin-bottom:0.75rem; font-size:1rem;">👤 Profile Details</h3>
+          <form id="profileForm" onsubmit="event.preventDefault(); submitProfileUpdate();">
+            <div class="form-grid">
+              <div class="form-group">
+                <label>First Name</label>
+                <input type="text" id="profFirstName" class="form-control">
+              </div>
+              <div class="form-group">
+                <label>Last Name</label>
+                <input type="text" id="profLastName" class="form-control">
+              </div>
+            </div>
+            <div class="form-grid">
+              <div class="form-group">
+                <label>Primary Phone</label>
+                <input type="text" id="profPhone" class="form-control">
+              </div>
+              <div class="form-group">
+                <label>Secondary Email</label>
+                <input type="email" id="profSecondaryEmail" class="form-control">
+              </div>
+            </div>
+            <div class="form-grid">
+              <div class="form-group">
+                <label>Date of Birth</label>
+                <input type="date" id="profDob" class="form-control">
+              </div>
+              <div class="form-group">
+                <label>Gender</label>
+                <select id="profGender" class="form-control">
+                  <option value="">Select gender</option>
+                  <option value="FEMALE">Female</option>
+                  <option value="MALE">Male</option>
+                  <option value="NON_BINARY">Non-Binary</option>
+                  <option value="OTHER">Other / Prefer not to say</option>
+                </select>
+              </div>
+            </div>
+            <button type="submit" class="btn btn-primary" style="margin-top:0.5rem;">Save Profile Updates</button>
+          </form>
+
+          <hr style="margin: 1.5rem 0; border: none; border-top: 1px solid var(--gray-200);">
+
+          <h3 style="margin-bottom:0.75rem; font-size:1rem; color:var(--danger);">⚠️ Account Deactivation Request</h3>
+          <div class="form-group" style="margin-bottom:0.5rem;">
+            <label>Reason for deactivation</label>
+            <input type="text" id="deactivateReason" class="form-control" placeholder="e.g. Closing personal shopping account">
+          </div>
+          <button class="btn btn-danger btn-sm" onclick="requestDeactivation()">Submit Deactivation Request</button>
+        </div>
+
+        <div>
+          <h3 style="margin-bottom:0.75rem; font-size:1rem;">📜 Profile Change History Audit</h3>
+          <div id="profileHistoryContainer" style="background:var(--gray-100); padding:1rem; border-radius:8px; font-size:0.8rem; max-height:360px; overflow-y:auto;">
+            Log in to view profile change history.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 5: Address Management -->
+    <div id="tab-addresses" class="tab-panel">
+      <div class="panel-header">
+        <div>
+          <div class="panel-title">Module 5: Address Management</div>
+          <div class="panel-subtitle">Manage customer shipping/billing addresses, default selection, and associate addresses with orders.</div>
+        </div>
+        <button class="btn btn-primary btn-sm" onclick="showAddAddressForm()">➕ Add Address</button>
+      </div>
+
+      <div id="addressFormCard" style="display:none; background:var(--gray-100); padding:1.25rem; border-radius:8px; margin-bottom:1.5rem;">
+        <h4 style="margin-bottom:0.75rem;">Add New Address</h4>
+        <form onsubmit="event.preventDefault(); submitCreateAddress();">
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Recipient Name *</label>
+              <input type="text" id="addrFullName" class="form-control" required placeholder="Jane Doe">
+            </div>
+            <div class="form-group">
+              <label>Phone Number *</label>
+              <input type="text" id="addrPhone" class="form-control" required placeholder="+14155552671">
+            </div>
+            <div class="form-group">
+              <label>Address Type *</label>
+              <select id="addrType" class="form-control">
+                <option value="SHIPPING">Shipping Address</option>
+                <option value="BILLING">Billing Address</option>
+                <option value="BOTH">Shipping & Billing</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group" style="margin-bottom:0.5rem;">
+            <label>Street Address Line 1 *</label>
+            <input type="text" id="addrStreet1" class="form-control" required placeholder="742 Evergreen Terrace">
+          </div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label>City *</label>
+              <input type="text" id="addrCity" class="form-control" required placeholder="Springfield">
+            </div>
+            <div class="form-group">
+              <label>State / Province *</label>
+              <input type="text" id="addrState" class="form-control" required placeholder="OR">
+            </div>
+            <div class="form-group">
+              <label>Postal Code *</label>
+              <input type="text" id="addrZip" class="form-control" required placeholder="97477">
+            </div>
+            <div class="form-group">
+              <label>Country *</label>
+              <input type="text" id="addrCountry" class="form-control" required value="United States">
+            </div>
+          </div>
+          <div style="display:flex; gap:0.5rem; margin-top:0.75rem;">
+            <button type="submit" class="btn btn-success">Save Address</button>
+            <button type="button" class="btn btn-secondary" onclick="hideAddAddressForm()">Cancel</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Recipient</th>
+              <th>Type</th>
+              <th>Full Address</th>
+              <th>Phone</th>
+              <th>Default Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="addressTableBody">
+            <tr><td colspan="7">Loading addresses...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- TAB 6: Category Management -->
+    <div id="tab-categories" class="tab-panel">
+      <div class="panel-header">
+        <div>
+          <div class="panel-title">Module 6: Product Category Management</div>
+          <div class="panel-subtitle">Hierarchical categories and subcategories, tree retrieval, and invalid deletion prevention.</div>
+        </div>
+        <button class="btn btn-primary btn-sm" onclick="showAddCategoryForm()">➕ Add Category</button>
+      </div>
+
+      <div id="categoryFormCard" style="display:none; background:var(--gray-100); padding:1rem; border-radius:8px; margin-bottom:1rem;">
+        <h4>Create Category / Subcategory</h4>
+        <form onsubmit="event.preventDefault(); submitCreateCategory();">
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Category Name *</label>
+              <input type="text" id="catName" class="form-control" required placeholder="e.g. Laptops">
+            </div>
+            <div class="form-group">
+              <label>Parent Category (Leave empty for root)</label>
+              <select id="catParentId" class="form-control">
+                <option value="">Root Level (No Parent)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Display Order</label>
+              <input type="number" id="catDisplayOrder" class="form-control" value="0">
+            </div>
+          </div>
+          <div style="display:flex; gap:0.5rem; margin-top:0.5rem;">
+            <button type="submit" class="btn btn-success">Create Category</button>
+            <button type="button" class="btn btn-secondary" onclick="hideAddCategoryForm()">Cancel</button>
+          </div>
+        </form>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+        <div>
+          <h3 style="margin-bottom:0.75rem; font-size:1rem;">🌲 Category Hierarchy Tree</h3>
+          <div id="categoryTreeContainer" class="tree-container">
+            Loading hierarchy...
+          </div>
+        </div>
+
+        <div>
+          <h3 style="margin-bottom:0.75rem; font-size:1rem;">🛡️ Safe Deletion Tester</h3>
+          <p style="font-size:0.85rem; color:var(--gray-500); margin-bottom:0.75rem;">
+            Tests the safety validation requirement: deletion is blocked if category has subcategories or associated products.
+          </p>
+          <div class="table-responsive">
+            <table>
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Name</th>
+                  <th>Parent</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="categoryTableBody">
+                <tr><td colspan="4">Loading categories...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 7: Brand Management -->
+    <div id="tab-brands" class="tab-panel">
+      <div class="panel-header">
+        <div>
+          <div class="panel-title">Module 7: Brand Management</div>
+          <div class="panel-subtitle">Register and update brands, manage brand status, and view products associated with brands.</div>
+        </div>
+        <button class="btn btn-primary btn-sm" onclick="showAddBrandForm()">➕ Register Brand</button>
+      </div>
+
+      <div id="brandFormCard" style="display:none; background:var(--gray-100); padding:1rem; border-radius:8px; margin-bottom:1rem;">
+        <h4>Register New Brand</h4>
+        <form onsubmit="event.preventDefault(); submitCreateBrand();">
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Brand Name *</label>
+              <input type="text" id="brandName" class="form-control" required placeholder="e.g. Sony">
+            </div>
+            <div class="form-group">
+              <label>Brand Code / Slug</label>
+              <input type="text" id="brandCode" class="form-control" placeholder="e.g. SONY">
+            </div>
+            <div class="form-group">
+              <label>Website URL</label>
+              <input type="url" id="brandWebsite" class="form-control" placeholder="https://sony.com">
+            </div>
+          </div>
+          <div style="display:flex; gap:0.5rem; margin-top:0.5rem;">
+            <button type="submit" class="btn btn-success">Save Brand</button>
+            <button type="button" class="btn btn-secondary" onclick="hideAddBrandForm()">Cancel</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Brand Name</th>
+              <th>Code</th>
+              <th>Status</th>
+              <th>Linked Products</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="brandTableBody">
+            <tr><td colspan="6">Loading brands...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- TAB 8: Product Catalog -->
+    <div id="tab-products" class="tab-panel">
+      <div class="panel-header">
+        <div>
+          <div class="panel-title">Module 8: Product Management</div>
+          <div class="panel-subtitle">Catalog CRUD, prices, SKU, category & brand associations, and multi-criteria search & filtering.</div>
+        </div>
+        <button class="btn btn-primary btn-sm" onclick="showAddProductForm()">➕ Add Product</button>
+      </div>
+
+      <div style="display:flex; gap:0.75rem; margin-bottom:1rem; flex-wrap:wrap;">
+        <input type="text" id="prodSearchInput" class="form-control" placeholder="Search by title, description, SKU..." style="flex:1;" oninput="loadProducts()">
+        <select id="prodCategoryFilter" class="form-control" style="width:170px;" onchange="loadProducts()">
+          <option value="">All Categories</option>
+        </select>
+        <select id="prodBrandFilter" class="form-control" style="width:150px;" onchange="loadProducts()">
+          <option value="">All Brands</option>
+        </select>
+        <select id="prodSortBy" class="form-control" style="width:140px;" onchange="loadProducts()">
+          <option value="newest">Newest</option>
+          <option value="price_asc">Price: Low to High</option>
+          <option value="price_desc">Price: High to Low</option>
+          <option value="name_asc">Name: A to Z</option>
+        </select>
+      </div>
+
+      <div id="productFormCard" style="display:none; background:var(--gray-100); padding:1.25rem; border-radius:8px; margin-bottom:1.5rem;">
+        <h4>Create New Product</h4>
+        <form onsubmit="event.preventDefault(); submitCreateProduct();">
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Product Name *</label>
+              <input type="text" id="pName" class="form-control" required placeholder="Pro Wireless Headphones">
+            </div>
+            <div class="form-group">
+              <label>Base SKU *</label>
+              <input type="text" id="pSku" class="form-control" required placeholder="HDPH-PRO-01">
+            </div>
+            <div class="form-group">
+              <label>Base Price ($) *</label>
+              <input type="number" step="0.01" id="pPrice" class="form-control" required placeholder="199.99">
+            </div>
+          </div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Category</label>
+              <select id="pCatId" class="form-control"></select>
+            </div>
+            <div class="form-group">
+              <label>Brand</label>
+              <select id="pBrandId" class="form-control"></select>
+            </div>
+            <div class="form-group">
+              <label>Short Description</label>
+              <input type="text" id="pShortDesc" class="form-control" placeholder="Premium noise-cancelling headphones">
+            </div>
+          </div>
+          <div style="display:flex; gap:0.5rem; margin-top:0.5rem;">
+            <button type="submit" class="btn btn-success">Save Product</button>
+            <button type="button" class="btn btn-secondary" onclick="hideAddProductForm()">Cancel</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th>SKU</th>
+              <th>Product Name</th>
+              <th>Price</th>
+              <th>Category</th>
+              <th>Brand</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="productsTableBody">
+            <tr><td colspan="7">Loading products...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- TAB 9: Product Variants -->
+    <div id="tab-variants" class="tab-panel">
+      <div class="panel-header">
+        <div>
+          <div class="panel-title">Module 9: Product Variants</div>
+          <div class="panel-subtitle">Manage size, color, unique variant SKUs, variant pricing, and live inventory availability tracking.</div>
+        </div>
+        <button class="btn btn-primary btn-sm" onclick="showAddVariantForm()">➕ Add Variant</button>
+      </div>
+
+      <div style="display:flex; gap:0.75rem; margin-bottom:1rem; align-items:center;">
+        <label style="font-weight:600; font-size:0.85rem;">Select Product:</label>
+        <select id="variantProductSelector" class="form-control" style="width:280px;" onchange="loadVariantsForSelectedProduct()">
+          <option value="">Select a product...</option>
+        </select>
+      </div>
+
+      <div id="variantFormCard" style="display:none; background:var(--gray-100); padding:1rem; border-radius:8px; margin-bottom:1rem;">
+        <h4>Add Variant to Selected Product</h4>
+        <form onsubmit="event.preventDefault(); submitCreateVariant();">
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Variant Title *</label>
+              <input type="text" id="vTitle" class="form-control" required placeholder="Size: L / Color: Navy">
+            </div>
+            <div class="form-group">
+              <label>Unique Variant SKU *</label>
+              <input type="text" id="vSku" class="form-control" required placeholder="PROD-L-NAVY">
+            </div>
+            <div class="form-group">
+              <label>Variant Price ($) *</label>
+              <input type="number" step="0.01" id="vPrice" class="form-control" required placeholder="219.99">
+            </div>
+          </div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Initial Stock *</label>
+              <input type="number" id="vStock" class="form-control" required value="25">
+            </div>
+            <div class="form-group">
+              <label>Low Stock Threshold</label>
+              <input type="number" id="vThreshold" class="form-control" value="5">
+            </div>
+            <div class="form-group">
+              <label>Size / Color Tag</label>
+              <input type="text" id="vAttrs" class="form-control" placeholder='{"size": "L", "color": "Navy"}'>
+            </div>
+          </div>
+          <div style="display:flex; gap:0.5rem; margin-top:0.5rem;">
+            <button type="submit" class="btn btn-success">Save Variant</button>
+            <button type="button" class="btn btn-secondary" onclick="hideAddVariantForm()">Cancel</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th>SKU</th>
+              <th>Variant Title</th>
+              <th>Price</th>
+              <th>Stock Qty</th>
+              <th>Availability</th>
+              <th>Status</th>
+              <th>Inventory Adjust</th>
+            </tr>
+          </thead>
+          <tbody id="variantsTableBody">
+            <tr><td colspan="7">Please select a product above to inspect variants.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- TAB 10: Product Images & Documents -->
+    <div id="tab-media" class="tab-panel">
+      <div class="panel-header">
+        <div>
+          <div class="panel-title">Module 10: Product Images and Documents</div>
+          <div class="panel-subtitle">Upload images and documents, file type/size validation, Pillow resolution check, SHA256 checksums, and secure download/removal.</div>
+        </div>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 1fr 1.5fr; gap: 1.5rem;">
+        <div>
+          <h3 style="margin-bottom:0.75rem; font-size:1rem;">📤 Upload Product Asset</h3>
+          <form id="mediaUploadForm" onsubmit="event.preventDefault(); submitUploadMedia();">
+            <div class="form-group" style="margin-bottom:0.75rem;">
+              <label>Associate with Product</label>
+              <select id="mediaProductSelect" class="form-control">
+                <option value="">General Media</option>
+              </select>
+            </div>
+            <div class="form-group" style="margin-bottom:0.75rem;">
+              <label>Asset Type</label>
+              <select id="mediaTypeSelect" class="form-control">
+                <option value="IMAGE">Product Image (JPEG, PNG, WEBP, GIF)</option>
+                <option value="DOCUMENT">Manual / Document (PDF, DOCX, TXT)</option>
+              </select>
+            </div>
+            <div class="form-group" style="margin-bottom:0.75rem;">
+              <label>Select File (Max 10MB)</label>
+              <input type="file" id="mediaFileInput" class="form-control" required>
+            </div>
+            <div class="form-group" style="margin-bottom:1rem;">
+              <label style="display:flex; align-items:center; gap:0.5rem; cursor:pointer;">
+                <input type="checkbox" id="mediaIsPrimary"> Set as Primary Product Image
+              </label>
+            </div>
+            <button type="submit" class="btn btn-primary">Upload & Store Metadata</button>
+          </form>
+        </div>
+
+        <div>
+          <h3 style="margin-bottom:0.75rem; font-size:1rem;">📁 Uploaded Files & Metadata Inspector</h3>
+          <div class="table-responsive">
+            <table>
+              <thead>
+                <tr>
+                  <th>File Name</th>
+                  <th>Type</th>
+                  <th>Size</th>
+                  <th>Resolution / SHA256</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="mediaTableBody">
+                <tr><td colspan="5">Loading files...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 11: Product Attributes -->
+    <div id="tab-attributes" class="tab-panel">
+      <div class="panel-header">
+        <div>
+          <div class="panel-title">Module 11: Product Attributes</div>
+          <div class="panel-subtitle">Define size, material, color, category-specific attributes, value validation, and attribute filtering.</div>
+        </div>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+        <div>
+          <h3 style="margin-bottom:0.75rem; font-size:1rem;">🏷️ Define New Attribute</h3>
+          <form onsubmit="event.preventDefault(); submitCreateAttribute();">
+            <div class="form-grid">
+              <div class="form-group">
+                <label>Attribute Name *</label>
+                <input type="text" id="attrName" class="form-control" required placeholder="e.g. Battery Life">
+              </div>
+              <div class="form-group">
+                <label>Attribute Code</label>
+                <input type="text" id="attrCode" class="form-control" placeholder="e.g. battery_life_hours">
+              </div>
+            </div>
+            <div class="form-grid">
+              <div class="form-group">
+                <label>Data Type</label>
+                <select id="attrDataType" class="form-control">
+                  <option value="TEXT">Text</option>
+                  <option value="NUMBER">Number</option>
+                  <option value="SELECT">Select (Dropdown)</option>
+                  <option value="BOOLEAN">Boolean</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Options (comma separated)</label>
+                <input type="text" id="attrOptions" class="form-control" placeholder="Red, Blue, Green">
+              </div>
+            </div>
+            <button type="submit" class="btn btn-success btn-sm" style="margin-top:0.5rem;">Save Attribute</button>
+          </form>
+
+          <hr style="margin: 1.25rem 0; border: none; border-top: 1px solid var(--gray-200);">
+
+          <h3 style="margin-bottom:0.75rem; font-size:1rem;">🔍 Filter Products by Attribute</h3>
+          <div style="display:flex; gap:0.5rem; margin-bottom:0.75rem;">
+            <input type="text" id="filterAttrCode" class="form-control" placeholder="Code (e.g. color)" style="width:140px;">
+            <input type="text" id="filterAttrVal" class="form-control" placeholder="Value (e.g. Black)" style="flex:1;">
+            <button class="btn btn-primary btn-sm" onclick="filterByAttr()">Filter</button>
+          </div>
+          <div id="attrFilteredResults" style="font-size:0.85rem; color:var(--gray-700);"></div>
+        </div>
+
+        <div>
+          <h3 style="margin-bottom:0.75rem; font-size:1rem;">📋 Defined Attributes Catalog</h3>
+          <div class="table-responsive">
+            <table>
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Name / Code</th>
+                  <th>Type</th>
+                  <th>Options</th>
+                </tr>
+              </thead>
+              <tbody id="attributesTableBody">
+                <tr><td colspan="4">Loading attributes...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 12: Product Pricing -->
+    <div id="tab-pricing" class="tab-panel">
+      <div class="panel-header">
+        <div>
+          <div class="panel-title">Module 12: Product Pricing</div>
+          <div class="panel-subtitle">Manage base & sale prices, configure validity periods, validate price changes, and track price history.</div>
+        </div>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+        <div>
+          <h3 style="margin-bottom:0.75rem; font-size:1rem;">💲 Configure Base & Sale Pricing</h3>
+          <form onsubmit="event.preventDefault(); submitPriceConfig();">
+            <div class="form-group" style="margin-bottom:0.5rem;">
+              <label>Target Product</label>
+              <select id="pricingProductSelect" class="form-control" onchange="loadPricingForSelected()"></select>
+            </div>
+            <div class="form-grid">
+              <div class="form-group">
+                <label>Base Price ($) *</label>
+                <input type="number" step="0.01" id="pricingBasePrice" class="form-control" required placeholder="399.99">
+              </div>
+              <div class="form-group">
+                <label>Sale Price ($)</label>
+                <input type="number" step="0.01" id="pricingSalePrice" class="form-control" placeholder="349.99">
+              </div>
+            </div>
+            <div class="form-grid">
+              <div class="form-group">
+                <label>Sale Start Date</label>
+                <input type="datetime-local" id="pricingStartDate" class="form-control">
+              </div>
+              <div class="form-group">
+                <label>Sale End Date</label>
+                <input type="datetime-local" id="pricingEndDate" class="form-control">
+              </div>
+            </div>
+            <div class="form-group" style="margin-bottom:0.5rem;">
+              <label>Audit Reason for Price Change *</label>
+              <input type="text" id="pricingReason" class="form-control" required placeholder="e.g. Black Friday promotional discount">
+            </div>
+            <button type="submit" class="btn btn-primary btn-sm">Save & Audit Pricing</button>
+          </form>
+        </div>
+
+        <div>
+          <h3 style="margin-bottom:0.75rem; font-size:1rem;">📜 Price Change Audit Trail</h3>
+          <div id="priceHistoryContainer" style="background:var(--gray-100); padding:1rem; border-radius:8px; font-size:0.8rem; max-height:360px; overflow-y:auto;">
+            Select a product to view price history.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 13: Inventory Management -->
+    <div id="tab-inventory" class="tab-panel">
+      <div class="panel-header">
+        <div>
+          <div class="panel-title">Module 13: Inventory Management</div>
+          <div class="panel-subtitle">Total, available & reserved stock tracking, stock additions & reductions, and negative inventory prevention.</div>
+        </div>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 1fr 1.3fr; gap: 1.5rem;">
+        <div>
+          <h3 style="margin-bottom:0.75rem; font-size:1rem;">📦 Stock Movements & Reservations</h3>
+          <div class="form-group" style="margin-bottom:0.75rem;">
+            <label>Select Product</label>
+            <select id="invProductSelect" class="form-control" onchange="loadInventoryStatus()"></select>
+          </div>
+          <div id="invSummaryCard" style="background:var(--gray-100); padding:1rem; border-radius:8px; margin-bottom:1rem;">
+            <div>Total Stock: <strong id="invTotal">-</strong></div>
+            <div>Available: <strong id="invAvail" style="color:green;">-</strong></div>
+            <div>Reserved: <strong id="invReserved" style="color:orange;">-</strong></div>
+            <div>Status: <span id="invStatusBadge" class="badge badge-active">-</span></div>
+          </div>
+
+          <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
+            <input type="number" id="invActionQty" class="form-control" placeholder="Qty" style="width:80px;" value="10">
+            <button class="btn btn-success btn-sm" onclick="performStockAction('add')">➕ Stock Addition</button>
+            <button class="btn btn-danger btn-sm" onclick="performStockAction('reduce')">➖ Stock Reduction</button>
+            <button class="btn btn-warning btn-sm" onclick="performStockAction('reserve')">🔒 Reserve</button>
+            <button class="btn btn-secondary btn-sm" onclick="performStockAction('release')">🔓 Release</button>
+          </div>
+        </div>
+
+        <div>
+          <h3 style="margin-bottom:0.75rem; font-size:1rem;">📋 Stock Movement Audit History</h3>
+          <div class="table-responsive">
+            <table>
+              <thead>
+                <tr>
+                  <th>Type</th>
+                  <th>Quantity</th>
+                  <th>Balance After</th>
+                  <th>Reference</th>
+                  <th>Date</th>
+                </tr>
+              </thead>
+              <tbody id="movementsTableBody">
+                <tr><td colspan="5">Loading movements...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 14: Warehouse Management -->
+    <div id="tab-warehouses" class="tab-panel">
+      <div class="panel-header">
+        <div>
+          <div class="panel-title">Module 14: Warehouse Management</div>
+          <div class="panel-subtitle">Multi-facility warehouse infrastructure, inventory associations, capacity tracking, and role restrictions.</div>
+        </div>
+        <button class="btn btn-primary btn-sm" onclick="showAddWarehouseForm()">➕ Add Facility</button>
+      </div>
+
+      <div id="warehouseFormCard" style="display:none; background:var(--gray-100); padding:1rem; border-radius:8px; margin-bottom:1rem;">
+        <h4>Add Warehouse Facility</h4>
+        <form onsubmit="event.preventDefault(); submitCreateWarehouse();">
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Warehouse Code *</label>
+              <input type="text" id="whCode" class="form-control" required placeholder="WH-CENTRAL-01">
+            </div>
+            <div class="form-group">
+              <label>Facility Name *</label>
+              <input type="text" id="whName" class="form-control" required placeholder="Central Logistics Hub">
+            </div>
+            <div class="form-group">
+              <label>Capacity (Units) *</label>
+              <input type="number" id="whCapacity" class="form-control" required value="20000">
+            </div>
+          </div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Street Address</label>
+              <input type="text" id="whAddress" class="form-control" required placeholder="100 Logistics Way">
+            </div>
+            <div class="form-group">
+              <label>City & State</label>
+              <input type="text" id="whCity" class="form-control" required placeholder="Chicago, IL">
+            </div>
+            <div class="form-group">
+              <label>Postal Code</label>
+              <input type="text" id="whZip" class="form-control" required placeholder="60601">
+            </div>
+          </div>
+          <div style="display:flex; gap:0.5rem; margin-top:0.5rem;">
+            <button type="submit" class="btn btn-success">Save Warehouse</button>
+            <button type="button" class="btn btn-secondary" onclick="hideAddWarehouseForm()">Cancel</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th>Code</th>
+              <th>Facility Name</th>
+              <th>Location</th>
+              <th>Capacity</th>
+              <th>Utilization</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="warehousesTableBody">
+            <tr><td colspan="7">Loading warehouses...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- TAB 15: Inventory Transfers -->
+    <div id="tab-transfers" class="tab-panel">
+      <div class="panel-header">
+        <div>
+          <div class="panel-title">Module 15: Inventory Transfers</div>
+          <div class="panel-subtitle">Inter-warehouse stock movements, transfer requests, dispatch & receipt tracking, audit history.</div>
+        </div>
+        <div style="display:flex; gap:0.5rem;">
+          <button class="btn btn-primary btn-sm" onclick="showCreateTransferForm()">➕ New Transfer Request</button>
+          <button class="btn btn-secondary btn-sm" onclick="loadTransfers()">🔄 Refresh</button>
+        </div>
+      </div>
+
+      <div id="transferFormCard" style="display:none; background:var(--gray-100); padding:1rem; border-radius:8px; margin-bottom:1rem;">
+        <h4>Create Inter-Warehouse Transfer Request</h4>
+        <form onsubmit="event.preventDefault(); submitCreateTransfer();">
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Source Warehouse *</label>
+              <select id="transferSourceWh" class="form-control" required></select>
+            </div>
+            <div class="form-group">
+              <label>Destination Warehouse *</label>
+              <select id="transferDestWh" class="form-control" required></select>
+            </div>
+            <div class="form-group">
+              <label>Product Variant ID *</label>
+              <input type="number" id="transferVariantId" class="form-control" required placeholder="Variant ID (e.g. 1)" value="1">
+            </div>
+          </div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Quantity to Transfer *</label>
+              <input type="number" id="transferQty" class="form-control" required min="1" value="25">
+            </div>
+            <div class="form-group" style="grid-column: span 2;">
+              <label>Transfer Notes</label>
+              <input type="text" id="transferNotes" class="form-control" placeholder="Restock regional distribution hub">
+            </div>
+          </div>
+          <div style="display:flex; gap:0.5rem; margin-top:0.5rem;">
+            <button type="submit" class="btn btn-success">Submit Request</button>
+            <button type="button" class="btn btn-secondary" onclick="hideCreateTransferForm()">Cancel</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th>Transfer #</th>
+              <th>Source</th>
+              <th>Destination</th>
+              <th>Variant ID</th>
+              <th>Qty Requested</th>
+              <th>Qty Shipped / Recv</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="transfersTableBody">
+            <tr><td colspan="8">Loading transfers...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- TAB 16: Low-Stock Management -->
+    <div id="tab-lowstock" class="tab-panel">
+      <div class="panel-header">
+        <div>
+          <div class="panel-title">Module 16: Low-Stock Management</div>
+          <div class="panel-subtitle">Stock replenishment alerts, threshold configuration, automated deficit tracking & inventory reports.</div>
+        </div>
+        <div style="display:flex; gap:0.5rem;">
+          <button class="btn btn-primary btn-sm" onclick="showThresholdForm()">⚙️ Configure Threshold</button>
+          <button class="btn btn-warning btn-sm" onclick="triggerRestockCheck()">⚡ Run Stock Check</button>
+          <button class="btn btn-secondary btn-sm" onclick="loadLowStockData()">🔄 Refresh</button>
+        </div>
+      </div>
+
+      <div id="thresholdFormCard" style="display:none; background:var(--gray-100); padding:1rem; border-radius:8px; margin-bottom:1rem;">
+        <h4>Configure Variant Stock Threshold</h4>
+        <form onsubmit="event.preventDefault(); submitConfigureThreshold();">
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Product Variant ID *</label>
+              <input type="number" id="threshVariantId" class="form-control" required placeholder="Variant ID (e.g. 1)" value="1">
+            </div>
+            <div class="form-group">
+              <label>Minimum Stock Threshold *</label>
+              <input type="number" id="threshMinQty" class="form-control" required min="0" value="15">
+            </div>
+            <div class="form-group">
+              <label>Reorder Quantity</label>
+              <input type="number" id="threshReorderQty" class="form-control" min="1" value="50">
+            </div>
+          </div>
+          <div style="display:flex; gap:0.5rem; margin-top:0.5rem;">
+            <button type="submit" class="btn btn-success">Save Threshold</button>
+            <button type="button" class="btn btn-secondary" onclick="hideThresholdForm()">Cancel</button>
+          </div>
+        </form>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 1fr; gap: 1.5rem;">
+        <div>
+          <h3 style="margin-bottom:0.75rem; font-size:1rem; color:#dc2626;">🚨 Active Restocking Alerts</h3>
+          <div class="table-responsive">
+            <table>
+              <thead>
+                <tr>
+                  <th>Alert ID</th>
+                  <th>Variant ID</th>
+                  <th>Available</th>
+                  <th>Threshold</th>
+                  <th>Deficit</th>
+                  <th>Severity</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="restockAlertsTableBody">
+                <tr><td colspan="8">Loading alerts...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div>
+          <h3 style="margin-bottom:0.75rem; font-size:1rem; color:#4f46e5;">📊 Low-Stock & Replenishment Report</h3>
+          <div class="table-responsive">
+            <table>
+              <thead>
+                <tr>
+                  <th>Variant ID</th>
+                  <th>Current Stock</th>
+                  <th>Min Threshold</th>
+                  <th>Reorder Quantity</th>
+                  <th>Deficit</th>
+                  <th>Restock Status</th>
+                </tr>
+              </thead>
+              <tbody id="lowStockReportTableBody">
+                <tr><td colspan="6">Loading report...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 17: Shopping Cart Management -->
+    <div id="tab-cart" class="tab-panel">
+      <div class="panel-header">
+        <div>
+          <div class="panel-title">Module 17: Shopping Cart Management</div>
+          <div class="panel-subtitle">Customer cart persistence, real-time item modifications, quantity validation, and live total tallies.</div>
+        </div>
+        <div style="display:flex; gap:0.5rem;">
+          <button class="btn btn-danger btn-sm" onclick="clearCustomerCart()">🧹 Clear Cart</button>
+          <button class="btn btn-secondary btn-sm" onclick="loadCart()">🔄 Refresh Cart</button>
+        </div>
+      </div>
+
+      <div style="display:grid; grid-template-columns: 320px 1fr; gap: 1.5rem;">
+        <div>
+          <div style="background:var(--gray-100); padding:1rem; border-radius:8px; margin-bottom:1rem;">
+            <h4>Add Product to Cart</h4>
+            <form onsubmit="event.preventDefault(); submitAddToCart();">
+              <div class="form-group" style="margin-bottom:0.75rem;">
+                <label>Product Variant ID *</label>
+                <input type="number" id="cartAddVariantId" class="form-control" required placeholder="Variant ID (e.g. 1)" value="1">
+              </div>
+              <div class="form-group" style="margin-bottom:0.75rem;">
+                <label>Quantity *</label>
+                <input type="number" id="cartAddQty" class="form-control" required min="1" value="1">
+              </div>
+              <button type="submit" class="btn btn-primary" style="width:100%;">➕ Add to Cart</button>
+            </form>
+          </div>
+
+          <div style="background:var(--primary-light); padding:1rem; border-radius:8px; border:1px solid #c7d2fe;">
+            <h4 style="color:var(--primary); margin-bottom:0.5rem;">Cart Overview</h4>
+            <p style="font-size:0.875rem;">Items in Cart: <strong id="cartSummaryItems">0</strong></p>
+            <p style="font-size:0.875rem;">Total Quantity: <strong id="cartSummaryQty">0</strong></p>
+            <p style="font-size:1.1rem; margin-top:0.5rem; color:#1e1b4b;">Subtotal: <strong id="cartSummarySubtotal">$0.00</strong></p>
+            <button class="btn btn-success btn-sm" style="width:100%; margin-top:0.75rem;" onclick="switchTab('tab-cartcalc')">➡️ Calculate Total & Discounts</button>
+          </div>
+        </div>
+
+        <div>
+          <h3 style="margin-bottom:0.75rem; font-size:1rem;">🛒 Cart Items</h3>
+          <div class="table-responsive">
+            <table>
+              <thead>
+                <tr>
+                  <th>Variant ID</th>
+                  <th>SKU / Details</th>
+                  <th>Unit Price</th>
+                  <th>Quantity</th>
+                  <th>Item Total</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="cartTableBody">
+                <tr><td colspan="6">Loading cart items...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 18: Cart Price Calculation -->
+    <div id="tab-cartcalc" class="tab-panel">
+      <div class="panel-header">
+        <div>
+          <div class="panel-title">Module 18: Cart Price Calculation</div>
+          <div class="panel-subtitle">Comprehensive server-side calculation engine: item subtotals, coupon codes, catalog promotions, regional taxes, and freight fees.</div>
+        </div>
+        <button class="btn btn-secondary btn-sm" onclick="calculateCartSummary()">🔄 Recalculate</button>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 360px 1fr; gap: 1.5rem;">
+        <div style="background:var(--gray-100); padding:1.25rem; border-radius:8px;">
+          <h4>Checkout Parameters</h4>
+          <div class="form-group" style="margin-bottom:0.75rem;">
+            <label>Coupon Code (Optional)</label>
+            <div style="display:flex; gap:0.4rem;">
+              <input type="text" id="calcCouponCode" class="form-control" placeholder="WELCOME10 or SAVE20" value="WELCOME10">
+              <button class="btn btn-outline-light btn-sm" style="color:var(--dark); border-color:#cbd5e1;" onclick="applySampleCoupon('SAVE20')">SAVE20</button>
+            </div>
+          </div>
+          <div class="form-group" style="margin-bottom:0.75rem;">
+            <label>Shipping Method</label>
+            <select id="calcShippingMethod" class="form-control">
+              <option value="STANDARD_GROUND">Standard Ground ($9.99)</option>
+              <option value="EXPRESS_2DAY">Express 2-Day ($19.99)</option>
+              <option value="OVERNIGHT">Overnight Priority ($34.99)</option>
+            </select>
+          </div>
+          <div class="form-group" style="margin-bottom:1rem;">
+            <label>Destination Country / State</label>
+            <div style="display:flex; gap:0.5rem;">
+              <input type="text" id="calcCountry" class="form-control" value="US" placeholder="Country">
+              <input type="text" id="calcState" class="form-control" value="CA" placeholder="State/Region">
+            </div>
+          </div>
+          <button class="btn btn-primary" style="width:100%;" onclick="calculateCartSummary()">🧮 Compute Complete Summary</button>
+        </div>
+
+        <div>
+          <h3 style="margin-bottom:0.75rem; font-size:1rem;">📑 Pricing & Cost Breakdown</h3>
+          <div style="background:#ffffff; border:1px solid var(--gray-200); border-radius:8px; padding:1.25rem; box-shadow:var(--shadow);">
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:1rem; border-bottom:1px solid var(--gray-200); padding-bottom:1rem; margin-bottom:1rem;">
+              <div>
+                <p style="color:var(--gray-500); font-size:0.85rem;">Items Subtotal</p>
+                <h3 id="calcSummarySubtotal" style="color:var(--gray-900);">$0.00</h3>
+              </div>
+              <div>
+                <p style="color:var(--gray-500); font-size:0.85rem;">Promotion & Coupon Discount</p>
+                <h3 id="calcSummaryDiscount" style="color:#10b981;">-$0.00</h3>
+              </div>
+              <div>
+                <p style="color:var(--gray-500); font-size:0.85rem;">Tax Amount</p>
+                <h3 id="calcSummaryTax" style="color:var(--gray-900);">$0.00</h3>
+              </div>
+              <div>
+                <p style="color:var(--gray-500); font-size:0.85rem;">Shipping Freight</p>
+                <h3 id="calcSummaryShipping" style="color:var(--gray-900);">$0.00</h3>
+              </div>
+            </div>
+
+            <div style="display:flex; justify-content:space-between; align-items:center; background:var(--primary-light); padding:1rem; border-radius:6px;">
+              <span style="font-size:1.1rem; font-weight:700; color:var(--primary);">Final Grand Total:</span>
+              <span id="calcSummaryGrandTotal" style="font-size:1.5rem; font-weight:800; color:var(--primary);">$0.00</span>
+            </div>
+
+            <div style="margin-top:1.25rem;">
+              <h4 style="font-size:0.9rem; margin-bottom:0.5rem;">Applied Discounts & Rules</h4>
+              <ul id="calcAppliedRulesList" style="font-size:0.85rem; padding-left:1.25rem; color:var(--gray-700);">
+                <li>No active calculation loaded. Click "Compute Complete Summary" above.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 19: Wishlist Management -->
+    <div id="tab-wishlist" class="tab-panel">
+      <div class="panel-header">
+        <div>
+          <div class="panel-title">Module 19: Wishlist Management</div>
+          <div class="panel-subtitle">Customer saved items, duplicate prevention, stock availability checking, seamless cart movement.</div>
+        </div>
+        <button class="btn btn-secondary btn-sm" onclick="loadWishlist()">🔄 Refresh Wishlist</button>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 320px 1fr; gap: 1.5rem;">
+        <div style="background:var(--gray-100); padding:1rem; border-radius:8px;">
+          <h4>Save Item to Wishlist</h4>
+          <form onsubmit="event.preventDefault(); submitAddToWishlist();">
+            <div class="form-group" style="margin-bottom:0.75rem;">
+              <label>Product Variant ID *</label>
+              <input type="number" id="wishlistAddVariantId" class="form-control" required placeholder="Variant ID (e.g. 2)" value="2">
+            </div>
+            <button type="submit" class="btn btn-primary" style="width:100%;">💖 Add to Wishlist</button>
+          </form>
+        </div>
+
+        <div>
+          <h3 style="margin-bottom:0.75rem; font-size:1rem;">💖 Saved Wishlist Items</h3>
+          <div class="table-responsive">
+            <table>
+              <thead>
+                <tr>
+                  <th>Variant ID</th>
+                  <th>SKU</th>
+                  <th>Availability</th>
+                  <th>Date Saved</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="wishlistTableBody">
+                <tr><td colspan="5">Loading wishlist...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 20: Coupon Management -->
+    <div id="tab-coupons" class="tab-panel">
+      <div class="panel-header">
+        <div>
+          <div class="panel-title">Module 20: Coupon Management</div>
+          <div class="panel-subtitle">Promotional discount codes, percentage & fixed amount rules, minimum purchase requirements, validity windows.</div>
+        </div>
+        <div style="display:flex; gap:0.5rem;">
+          <button class="btn btn-primary btn-sm" onclick="showCouponForm()">➕ Create Coupon</button>
+          <button class="btn btn-secondary btn-sm" onclick="loadCoupons()">🔄 Refresh</button>
+        </div>
+      </div>
+
+      <div id="couponFormCard" style="display:none; background:var(--gray-100); padding:1rem; border-radius:8px; margin-bottom:1rem;">
+        <h4>Create Promotional Coupon</h4>
+        <form onsubmit="event.preventDefault(); submitCreateCoupon();">
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Coupon Code *</label>
+              <input type="text" id="couponCode" class="form-control" required placeholder="SUMMER25" style="text-transform:uppercase;">
+            </div>
+            <div class="form-group">
+              <label>Discount Type *</label>
+              <select id="couponType" class="form-control">
+                <option value="PERCENTAGE">PERCENTAGE (%)</option>
+                <option value="FIXED_AMOUNT">FIXED_AMOUNT ($)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Discount Value *</label>
+              <input type="number" step="0.01" id="couponValue" class="form-control" required value="20.00">
+            </div>
+          </div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Min Purchase ($)</label>
+              <input type="number" step="0.01" id="couponMinPurchase" class="form-control" value="50.00">
+            </div>
+            <div class="form-group">
+              <label>Max Uses</label>
+              <input type="number" id="couponMaxUses" class="form-control" value="500">
+            </div>
+            <div class="form-group">
+              <label>Status</label>
+              <select id="couponIsActive" class="form-control">
+                <option value="true">Active</option>
+                <option value="false">Inactive</option>
+              </select>
+            </div>
+          </div>
+          <div style="display:flex; gap:0.5rem; margin-top:0.5rem;">
+            <button type="submit" class="btn btn-success">Save Coupon</button>
+            <button type="button" class="btn btn-secondary" onclick="hideCouponForm()">Cancel</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th>Code</th>
+              <th>Type</th>
+              <th>Discount Value</th>
+              <th>Min Spend</th>
+              <th>Max Uses</th>
+              <th>Used Count</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="couponsTableBody">
+            <tr><td colspan="8">Loading coupons...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- TAB 21: Promotion Management -->
+    <div id="tab-promotions" class="tab-panel">
+      <div class="panel-header">
+        <div>
+          <div class="panel-title">Module 21: Promotion Management</div>
+          <div class="panel-subtitle">Automated product & category promotions, campaign eligibility rules, validity schedules, checkout discounts.</div>
+        </div>
+        <div style="display:flex; gap:0.5rem;">
+          <button class="btn btn-primary btn-sm" onclick="showPromotionForm()">➕ Create Promotion</button>
+          <button class="btn btn-secondary btn-sm" onclick="loadPromotions()">🔄 Refresh</button>
+        </div>
+      </div>
+
+      <div id="promotionFormCard" style="display:none; background:var(--gray-100); padding:1rem; border-radius:8px; margin-bottom:1rem;">
+        <h4>Create Campaign Promotion</h4>
+        <form onsubmit="event.preventDefault(); submitCreatePromotion();">
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Campaign Name *</label>
+              <input type="text" id="promoName" class="form-control" required placeholder="Autumn Clearance 2026">
+            </div>
+            <div class="form-group">
+              <label>Target Scope *</label>
+              <select id="promoTarget" class="form-control">
+                <option value="ALL">Entire Cart</option>
+                <option value="CATEGORY">Specific Category</option>
+                <option value="PRODUCT">Specific Product</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Discount Type & Value *</label>
+              <div style="display:flex; gap:0.4rem;">
+                <select id="promoType" class="form-control" style="width:140px;">
+                  <option value="PERCENTAGE">%</option>
+                  <option value="FIXED_AMOUNT">$</option>
+                </select>
+                <input type="number" step="0.01" id="promoValue" class="form-control" required value="15.00">
+              </div>
+            </div>
+          </div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Min Cart Value ($)</label>
+              <input type="number" step="0.01" id="promoMinValue" class="form-control" value="0.00">
+            </div>
+            <div class="form-group">
+              <label>Category ID (Optional)</label>
+              <input type="number" id="promoCategoryId" class="form-control" placeholder="e.g. 1">
+            </div>
+            <div class="form-group">
+              <label>Status</label>
+              <select id="promoIsActive" class="form-control">
+                <option value="true">Active</option>
+                <option value="false">Inactive</option>
+              </select>
+            </div>
+          </div>
+          <div style="display:flex; gap:0.5rem; margin-top:0.5rem;">
+            <button type="submit" class="btn btn-success">Save Promotion</button>
+            <button type="button" class="btn btn-secondary" onclick="hidePromotionForm()">Cancel</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th>Campaign Name</th>
+              <th>Scope</th>
+              <th>Discount</th>
+              <th>Min Order</th>
+              <th>Validity</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="promotionsTableBody">
+            <tr><td colspan="7">Loading promotions...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- TAB 22: Tax Management -->
+    <div id="tab-taxes" class="tab-panel">
+      <div class="panel-header">
+        <div>
+          <div class="panel-title">Module 22: Tax Management</div>
+          <div class="panel-subtitle">Regional jurisdiction tax rates, category tax overrides, and audit trails.</div>
+        </div>
+        <div style="display:flex; gap:0.5rem;">
+          <button class="btn btn-primary btn-sm" onclick="showTaxForm()">➕ Configure Tax Rate</button>
+          <button class="btn btn-secondary btn-sm" onclick="loadTaxes()">🔄 Refresh</button>
+        </div>
+      </div>
+
+      <div id="taxFormCard" style="display:none; background:var(--gray-100); padding:1rem; border-radius:8px; margin-bottom:1rem;">
+        <h4>Configure Jurisdiction Tax Rate</h4>
+        <form onsubmit="event.preventDefault(); submitCreateTax();">
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Tax Rule Name *</label>
+              <input type="text" id="taxName" class="form-control" required placeholder="California State Tax">
+            </div>
+            <div class="form-group">
+              <label>Country Code *</label>
+              <input type="text" id="taxCountry" class="form-control" required value="US">
+            </div>
+            <div class="form-group">
+              <label>State / Province Code</label>
+              <input type="text" id="taxState" class="form-control" placeholder="CA">
+            </div>
+          </div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Rate Percentage (%) *</label>
+              <input type="number" step="0.01" id="taxRate" class="form-control" required value="7.25">
+            </div>
+            <div class="form-group">
+              <label>Category ID Override (Optional)</label>
+              <input type="number" id="taxCategoryId" class="form-control" placeholder="Leave empty for all">
+            </div>
+            <div class="form-group">
+              <label>Status</label>
+              <select id="taxIsActive" class="form-control">
+                <option value="true">Active</option>
+                <option value="false">Inactive</option>
+              </select>
+            </div>
+          </div>
+          <div style="display:flex; gap:0.5rem; margin-top:0.5rem;">
+            <button type="submit" class="btn btn-success">Save Tax Rate</button>
+            <button type="button" class="btn btn-secondary" onclick="hideTaxForm()">Cancel</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th>Rule Name</th>
+              <th>Jurisdiction</th>
+              <th>Rate (%)</th>
+              <th>Category Override</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="taxesTableBody">
+            <tr><td colspan="6">Loading tax rules...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- TAB 23: Shipping Configuration -->
+    <div id="tab-shipping" class="tab-panel">
+      <div class="panel-header">
+        <div>
+          <div class="panel-title">Module 23: Shipping Configuration</div>
+          <div class="panel-subtitle">Carriers & fulfillment methods, base charges, free shipping thresholds, and dynamic freight estimations.</div>
+        </div>
+        <div style="display:flex; gap:0.5rem;">
+          <button class="btn btn-primary btn-sm" onclick="showShippingForm()">➕ Add Shipping Method</button>
+          <button class="btn btn-secondary btn-sm" onclick="loadShippingMethods()">🔄 Refresh</button>
+        </div>
+      </div>
+
+      <div id="shippingFormCard" style="display:none; background:var(--gray-100); padding:1rem; border-radius:8px; margin-bottom:1rem;">
+        <h4>Add Fulfillment Shipping Method</h4>
+        <form onsubmit="event.preventDefault(); submitCreateShippingMethod();">
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Method Code *</label>
+              <input type="text" id="shipMethodCode" class="form-control" required placeholder="SAME_DAY_COURIER" style="text-transform:uppercase;">
+            </div>
+            <div class="form-group">
+              <label>Display Name *</label>
+              <input type="text" id="shipMethodName" class="form-control" required placeholder="Same-Day Courier Express">
+            </div>
+            <div class="form-group">
+              <label>Base Cost ($) *</label>
+              <input type="number" step="0.01" id="shipBaseCost" class="form-control" required value="24.99">
+            </div>
+          </div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Free Shipping Threshold ($)</label>
+              <input type="number" step="0.01" id="shipFreeThreshold" class="form-control" value="200.00">
+            </div>
+            <div class="form-group">
+              <label>Estimated Days</label>
+              <input type="number" id="shipEstDays" class="form-control" value="1">
+            </div>
+            <div class="form-group">
+              <label>Status</label>
+              <select id="shipIsActive" class="form-control">
+                <option value="true">Active</option>
+                <option value="false">Inactive</option>
+              </select>
+            </div>
+          </div>
+          <div style="display:flex; gap:0.5rem; margin-top:0.5rem;">
+            <button type="submit" class="btn btn-success">Save Method</button>
+            <button type="button" class="btn btn-secondary" onclick="hideShippingForm()">Cancel</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th>Code</th>
+              <th>Method Name</th>
+              <th>Base Rate</th>
+              <th>Free Threshold</th>
+              <th>Est. Days</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="shippingTableBody">
+            <tr><td colspan="7">Loading shipping methods...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- TAB 24: Checkout Management -->
+    <div id="tab-checkout" class="tab-panel">
+      <div class="panel-header">
+        <div>
+          <div class="panel-title">Module 24: Checkout Management</div>
+          <div class="panel-subtitle">Multi-step checkout validation, address snapshotting, inventory reservation, and atomic order creation.</div>
+        </div>
+        <button class="btn btn-secondary btn-sm" onclick="loadCheckoutAddresses()">🔄 Refresh Addresses</button>
+      </div>
+
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+        <div>
+          <div style="background:#ffffff; border:1px solid var(--gray-200); border-radius:8px; padding:1.25rem; box-shadow:var(--shadow);">
+            <h3 style="margin-bottom:1rem; font-size:1.1rem; color:var(--dark);">📦 Order Placement Configuration</h3>
+            <form onsubmit="event.preventDefault(); submitCheckout();">
+              <div class="form-group" style="margin-bottom:1rem;">
+                <label>Shipping Address *</label>
+                <select id="checkoutShippingAddr" class="form-control" required></select>
+              </div>
+              <div class="form-group" style="margin-bottom:1rem;">
+                <label>Billing Address *</label>
+                <select id="checkoutBillingAddr" class="form-control" required></select>
+              </div>
+              <div class="form-group" style="margin-bottom:1rem;">
+                <label>Shipping Method *</label>
+                <select id="checkoutShipMethod" class="form-control" required>
+                  <option value="STANDARD_GROUND">Standard Ground ($9.99)</option>
+                  <option value="EXPRESS_2DAY">Express 2-Day ($19.99)</option>
+                  <option value="OVERNIGHT">Overnight Priority ($34.99)</option>
+                </select>
+              </div>
+              <div class="form-group" style="margin-bottom:1rem;">
+                <label>Coupon Code (Optional)</label>
+                <input type="text" id="checkoutCouponCode" class="form-control" placeholder="e.g. WELCOME10">
+              </div>
+              <div class="form-group" style="margin-bottom:1.25rem;">
+                <label>Order Notes / Delivery Instructions</label>
+                <input type="text" id="checkoutNotes" class="form-control" placeholder="Leave at front porch">
+              </div>
+              <button type="submit" class="btn btn-success" style="width:100%; font-size:1rem; padding:0.75rem;">🚀 Place Order Now</button>
+            </form>
+          </div>
+        </div>
+
+        <div>
+          <h3 style="margin-bottom:0.75rem; font-size:1rem;">⚡ Checkout Confirmation & Output</h3>
+          <div id="checkoutResultCard" style="background:var(--gray-100); border-radius:8px; padding:1.25rem; min-height:280px; font-family:monospace; font-size:0.85rem; overflow-x:auto;">
+            Click "Place Order Now" to submit the checkout request.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 25: Order Management -->
+    <div id="tab-orders" class="tab-panel">
+      <div class="panel-header">
+        <div>
+          <div class="panel-title">Module 25: Order Management</div>
+          <div class="panel-subtitle">Enterprise order tracking, search and filtering, status transitions, and automated inventory reconciliation.</div>
+        </div>
+        <div style="display:flex; gap:0.5rem;">
+          <select id="orderStatusFilter" class="form-control" style="width:160px;" onchange="loadOrders()">
+            <option value="">All Statuses</option>
+            <option value="CONFIRMED">CONFIRMED</option>
+            <option value="PROCESSING">PROCESSING</option>
+            <option value="SHIPPED">SHIPPED</option>
+            <option value="DELIVERED">DELIVERED</option>
+            <option value="CANCELLED">CANCELLED</option>
+          </select>
+          <button class="btn btn-secondary btn-sm" onclick="loadOrders()">🔄 Refresh</button>
+        </div>
+      </div>
+
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th>Order Number</th>
+              <th>Customer</th>
+              <th>Total Amount</th>
+              <th>Status</th>
+              <th>Payment</th>
+              <th>Placed Date</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="ordersTableBody">
+            <tr><td colspan="7">Loading orders...</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Order Details Sliding Panel -->
+      <div id="orderDetailModal" style="display:none; background:#ffffff; border:2px solid var(--primary); border-radius:8px; padding:1.25rem; margin-top:1.5rem; box-shadow:var(--shadow-lg);">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+          <h3 id="modalOrderNumber" style="color:var(--primary);">Order Details</h3>
+          <button class="btn btn-secondary btn-sm" onclick="hideOrderDetail()">✖ Close</button>
+        </div>
+        <div id="modalOrderContent"></div>
+      </div>
+    </div>
+
+    <!-- TAB 26: Order Item Management -->
+    <div id="tab-orderitems" class="tab-panel">
+      <div class="panel-header">
+        <div>
+          <div class="panel-title">Module 26: Order Item Management</div>
+          <div class="panel-subtitle">Product and variant snapshots, line-item pricing, SKU records, and item-level fulfillment tracking.</div>
+        </div>
+        <div style="display:flex; gap:0.5rem; align-items:center;">
+          <label style="font-weight:600; font-size:0.85rem;">Order ID:</label>
+          <input type="number" id="orderItemsOrderIdInput" class="form-control" style="width:100px;" value="1">
+          <button class="btn btn-primary btn-sm" onclick="loadOrderItemsUI()">🔍 Load Items</button>
+        </div>
+      </div>
+
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th>Item ID</th>
+              <th>Product Name</th>
+              <th>SKU</th>
+              <th>Unit Price</th>
+              <th>Quantity</th>
+              <th>Subtotal</th>
+              <th>Fulfillment Status</th>
+              <th>Update Fulfillment</th>
+            </tr>
+          </thead>
+          <tbody id="orderItemsTableBody">
+            <tr><td colspan="8">Enter an Order ID and click Load Items...</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div id="orderItemSnapshotCard" style="display:none; margin-top:1.5rem; background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:1rem;">
+        <h4 style="margin-bottom:0.5rem; font-size:0.95rem; color:#1e293b;">📸 Line Item Snapshot Details</h4>
+        <pre id="orderItemSnapshotPre" style="background:#0f172a; color:#38bdf8; padding:0.75rem; border-radius:6px; font-size:0.8rem; overflow-x:auto;"></pre>
+      </div>
+    </div>
+
+    <!-- TAB 27: Order Status Management -->
+    <div id="tab-orderstatus" class="tab-panel">
+      <div class="panel-header">
+        <div>
+          <div class="panel-title">Module 27: Order Status Management</div>
+          <div class="panel-subtitle">State machine transitions (PENDING → CONFIRMED → PROCESSING → SHIPPED → DELIVERED, CANCELLED), validation, and audit tracking.</div>
+        </div>
+        <div style="display:flex; gap:0.5rem; align-items:center;">
+          <label style="font-weight:600; font-size:0.85rem;">Order ID:</label>
+          <input type="number" id="orderStatusIdInput" class="form-control" style="width:100px;" value="1">
+          <button class="btn btn-primary btn-sm" onclick="loadOrderStatusUI()">🔍 Inspect State</button>
+        </div>
+      </div>
+
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:1.5rem; margin-bottom:1.5rem;">
+        <div style="background:#ffffff; border:1px solid var(--gray-200); border-radius:8px; padding:1.25rem;">
+          <h3 style="margin-bottom:0.75rem; font-size:1.05rem;">Current Status & Permitted Transitions</h3>
+          <p>Current Status: <span id="currentStatusBadge" class="badge" style="background:#4f46e5; color:#fff; font-size:0.9rem; padding:0.25rem 0.6rem;">UNKNOWN</span></p>
+          <div style="margin-top:1rem;">
+            <label style="font-weight:600; font-size:0.85rem; display:block; margin-bottom:0.4rem;">Permitted Next Actions:</label>
+            <div id="permittedStatusButtons" style="display:flex; gap:0.5rem; flex-wrap:wrap;">
+              <span style="color:#64748b; font-size:0.85rem;">Load an order to inspect transitions</span>
+            </div>
+          </div>
+        </div>
+
+        <div style="background:#ffffff; border:1px solid var(--gray-200); border-radius:8px; padding:1.25rem;">
+          <h3 style="margin-bottom:0.75rem; font-size:1.05rem;">Execute Status Transition</h3>
+          <div class="form-group" style="margin-bottom:0.75rem;">
+            <label>Target Status</label>
+            <select id="orderStatusTargetSelect" class="form-control">
+              <option value="CONFIRMED">CONFIRMED</option>
+              <option value="PROCESSING">PROCESSING</option>
+              <option value="SHIPPED">SHIPPED</option>
+              <option value="DELIVERED">DELIVERED</option>
+              <option value="CANCELLED">CANCELLED</option>
+            </select>
+          </div>
+          <div class="form-group" style="margin-bottom:0.75rem;">
+            <label>Transition Notes / Audit Reason</label>
+            <input type="text" id="orderStatusNotesInput" class="form-control" placeholder="e.g. Dispatched with tracking label">
+          </div>
+          <button class="btn btn-success btn-sm" onclick="submitStatusTransition()">🚀 Apply Transition</button>
+        </div>
+      </div>
+
+      <h3 style="margin-bottom:0.75rem; font-size:1.05rem;">📜 Order Status Transition History</h3>
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>From Status</th>
+              <th>To Status</th>
+              <th>Notes / Reason</th>
+              <th>Changed By User ID</th>
+              <th>Timestamp</th>
+            </tr>
+          </thead>
+          <tbody id="orderStatusHistoryTableBody">
+            <tr><td colspan="6">No status history loaded.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- TAB 28: Order Cancellation -->
+    <div id="tab-cancellations" class="tab-panel">
+      <div class="panel-header">
+        <div>
+          <div class="panel-title">Module 28: Order Cancellation Management</div>
+          <div class="panel-subtitle">Customer cancellation requests, eligibility validation, automatic inventory release, and refund triggering.</div>
+        </div>
+        <button class="btn btn-secondary btn-sm" onclick="loadCancellationsUI()">🔄 Refresh</button>
+      </div>
+
+      <div style="display:grid; grid-template-columns: 1fr 2fr; gap:1.5rem;">
+        <div style="background:#ffffff; border:1px solid var(--gray-200); border-radius:8px; padding:1.25rem;">
+          <h3 style="margin-bottom:0.75rem; font-size:1.05rem; color:#dc2626;">❌ Submit Order Cancellation</h3>
+          <form onsubmit="event.preventDefault(); submitOrderCancellation();">
+            <div class="form-group" style="margin-bottom:0.75rem;">
+              <label>Order ID *</label>
+              <input type="number" id="cancelOrderId" class="form-control" required placeholder="e.g. 2">
+            </div>
+            <div class="form-group" style="margin-bottom:0.75rem;">
+              <label>Cancellation Reason *</label>
+              <select id="cancelReasonSelect" class="form-control" required>
+                <option value="Customer requested cancellation before shipment">Customer requested cancellation</option>
+                <option value="Duplicate order placed by accident">Duplicate order placed</option>
+                <option value="Incorrect shipping address provided">Incorrect shipping address</option>
+                <option value="Pricing or coupon discrepancy">Pricing / coupon discrepancy</option>
+                <option value="Out of stock / inventory unavailable">Out of stock</option>
+              </select>
+            </div>
+            <div class="form-group" style="margin-bottom:0.75rem;">
+              <label>Admin / Support Notes</label>
+              <input type="text" id="cancelAdminNotes" class="form-control" placeholder="Optional notes for record">
+            </div>
+            <button type="submit" class="btn btn-danger" style="width:100%;">Confirm Cancellation</button>
+          </form>
+        </div>
+
+        <div>
+          <h3 style="margin-bottom:0.75rem; font-size:1.05rem;">📋 Cancellation Records</h3>
+          <div class="table-responsive">
+            <table>
+              <thead>
+                <tr>
+                  <th>Cancellation ID</th>
+                  <th>Order ID</th>
+                  <th>Reason</th>
+                  <th>Status</th>
+                  <th>Inventory Released</th>
+                  <th>Refund Initiated</th>
+                  <th>Timestamp</th>
+                </tr>
+              </thead>
+              <tbody id="cancellationsTableBody">
+                <tr><td colspan="7">Loading cancellations...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 29: Payment Management -->
+    <div id="tab-payments" class="tab-panel">
+      <div class="panel-header">
+        <div>
+          <div class="panel-title">Module 29: Payment Management (Sandbox Gateway)</div>
+          <div class="panel-subtitle">Payment session initiation, sandbox simulation, idempotency duplicate prevention, and webhook callbacks.</div>
+        </div>
+        <button class="btn btn-secondary btn-sm" onclick="loadPaymentsUI()">🔄 Refresh</button>
+      </div>
+
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:1.5rem; margin-bottom:1.5rem;">
+        <div style="background:#ffffff; border:1px solid var(--gray-200); border-radius:8px; padding:1.25rem;">
+          <h3 style="margin-bottom:0.75rem; font-size:1.05rem;">💳 Initiate Payment Session</h3>
+          <form onsubmit="event.preventDefault(); submitPaymentInitiate();">
+            <div class="form-group" style="margin-bottom:0.75rem;">
+              <label>Order ID *</label>
+              <input type="number" id="payOrderId" class="form-control" required placeholder="e.g. 1">
+            </div>
+            <div class="form-group" style="margin-bottom:0.75rem;">
+              <label>Payment Method</label>
+              <select id="payMethodSelect" class="form-control">
+                <option value="CREDIT_CARD">Credit / Debit Card</option>
+                <option value="PAYPAL">PayPal</option>
+                <option value="STRIPE">Stripe Sandbox</option>
+                <option value="APPLE_PAY">Apple Pay</option>
+              </select>
+            </div>
+            <div class="form-group" style="margin-bottom:0.75rem;">
+              <label>Idempotency Key</label>
+              <div style="display:flex; gap:0.5rem;">
+                <input type="text" id="payIdempotencyKey" class="form-control" placeholder="IDEM-XXXXX">
+                <button type="button" class="btn btn-outline-light btn-sm" onclick="generateIdempotencyKey()">🎲</button>
+              </div>
+            </div>
+            <button type="submit" class="btn btn-primary" style="width:100%;">Create Payment Request</button>
+          </form>
+        </div>
+
+        <div style="background:#ffffff; border:1px solid var(--gray-200); border-radius:8px; padding:1.25rem;">
+          <h3 style="margin-bottom:0.75rem; font-size:1.05rem;">⚡ Sandbox Gateway Execution</h3>
+          <div id="activePaymentCard" style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:6px; padding:1rem; margin-bottom:1rem; font-size:0.85rem;">
+            No active payment session selected. Initiate a payment first.
+          </div>
+          <div style="display:flex; gap:0.5rem;">
+            <button id="btnCapturePayment" class="btn btn-success btn-sm" disabled onclick="submitSandboxCapture()">✅ Process Sandbox Capture</button>
+            <button id="btnWebhookPayment" class="btn btn-secondary btn-sm" disabled onclick="submitWebhookSimulation()">📡 Trigger Webhook Success</button>
+          </div>
+        </div>
+      </div>
+
+      <h3 style="margin-bottom:0.75rem; font-size:1.05rem;">📜 Platform Payments</h3>
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Order ID</th>
+              <th>Method</th>
+              <th>Amount</th>
+              <th>Status</th>
+              <th>Transaction Reference</th>
+              <th>Created At</th>
+            </tr>
+          </thead>
+          <tbody id="paymentsTableBody">
+            <tr><td colspan="7">Loading payments...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- TAB 30: Payment Transaction History -->
+    <div id="tab-transactions" class="tab-panel">
+      <div class="panel-header">
+        <div>
+          <div class="panel-title">Module 30: Payment Transaction History</div>
+          <div class="panel-subtitle">Full transaction audit trail, authorization codes, gateway payload responses, and customer ledger.</div>
+        </div>
+        <div style="display:flex; gap:0.5rem; align-items:center;">
+          <input type="number" id="txFilterOrderId" class="form-control" style="width:120px;" placeholder="Order ID">
+          <button class="btn btn-primary btn-sm" onclick="loadTransactionsUI()">🔍 Filter</button>
+          <button class="btn btn-secondary btn-sm" onclick="document.getElementById('txFilterOrderId').value=''; loadTransactionsUI();">All</button>
+        </div>
+      </div>
+
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th>TX ID</th>
+              <th>Payment ID</th>
+              <th>Order ID</th>
+              <th>Action</th>
+              <th>Status</th>
+              <th>Gateway Reference</th>
+              <th>Timestamp</th>
+              <th>Payload Details</th>
+            </tr>
+          </thead>
+          <tbody id="transactionsTableBody">
+            <tr><td colspan="8">Loading transactions...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- TAB 31: Refund Management -->
+    <div id="tab-refunds" class="tab-panel">
+      <div class="panel-header">
+        <div>
+          <div class="panel-title">Module 31: Refund Management</div>
+          <div class="panel-subtitle">Full and partial refund requests, refundable amount bounds checks, and gateway refund settlement.</div>
+        </div>
+        <button class="btn btn-secondary btn-sm" onclick="loadRefundsUI()">🔄 Refresh</button>
+      </div>
+
+      <div style="display:grid; grid-template-columns: 1fr 2fr; gap:1.5rem;">
+        <div style="background:#ffffff; border:1px solid var(--gray-200); border-radius:8px; padding:1.25rem;">
+          <h3 style="margin-bottom:0.75rem; font-size:1.05rem;">💵 Process Refund</h3>
+          <form onsubmit="event.preventDefault(); submitRefund();">
+            <div class="form-group" style="margin-bottom:0.75rem;">
+              <label>Payment ID *</label>
+              <input type="number" id="refundPaymentId" class="form-control" required placeholder="e.g. 1">
+            </div>
+            <div class="form-group" style="margin-bottom:0.75rem;">
+              <label>Refund Amount ($) *</label>
+              <input type="number" step="0.01" id="refundAmount" class="form-control" required placeholder="e.g. 150.00">
+            </div>
+            <div class="form-group" style="margin-bottom:0.75rem;">
+              <label>Refund Reason *</label>
+              <select id="refundReasonSelect" class="form-control" required>
+                <option value="Customer order cancellation">Customer order cancellation</option>
+                <option value="Damaged item returned">Damaged item returned</option>
+                <option value="Incorrect item dispatched">Incorrect item dispatched</option>
+                <option value="Overcharge billing adjustment">Overcharge adjustment</option>
+                <option value="Customer goodwill concession">Customer goodwill concession</option>
+              </select>
+            </div>
+            <button type="submit" class="btn btn-danger" style="width:100%;">Authorize Refund</button>
+          </form>
+        </div>
+
+        <div>
+          <h3 style="margin-bottom:0.75rem; font-size:1.05rem;">📋 Refund Settlement Records</h3>
+          <div class="table-responsive">
+            <table>
+              <thead>
+                <tr>
+                  <th>Refund ID</th>
+                  <th>Payment ID</th>
+                  <th>Amount</th>
+                  <th>Status</th>
+                  <th>Reason</th>
+                  <th>Gateway Refund Reference</th>
+                  <th>Timestamp</th>
+                </tr>
+              </thead>
+              <tbody id="refundsTableBody">
+                <tr><td colspan="7">Loading refunds...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 32: Cash on Delivery Management -->
+    <div id="tab-cod" class="tab-panel">
+      <div class="panel-header">
+        <div>
+          <div class="panel-title">Module 32: Cash on Delivery (COD) Management</div>
+          <div class="panel-subtitle">Delivery zone restrictions, order eligibility verification, courier collection logging, and ledger reconciliation.</div>
+        </div>
+        <button class="btn btn-secondary btn-sm" onclick="loadCodUI()">🔄 Refresh</button>
+      </div>
+
+      <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:1.25rem; margin-bottom:1.5rem;">
+        <div style="background:#ffffff; border:1px solid var(--gray-200); border-radius:8px; padding:1.25rem;">
+          <h3 style="margin-bottom:0.75rem; font-size:1.05rem;">📍 Validate Eligibility</h3>
+          <form onsubmit="event.preventDefault(); checkCodEligibility();">
+            <div class="form-group" style="margin-bottom:0.75rem;">
+              <label>Order Amount ($)</label>
+              <input type="number" step="0.01" id="codCheckAmount" class="form-control" value="150.00">
+            </div>
+            <div class="form-group" style="margin-bottom:0.75rem;">
+              <label>Postal Code</label>
+              <input type="text" id="codCheckPostalCode" class="form-control" value="94107">
+            </div>
+            <button type="submit" class="btn btn-primary btn-sm" style="width:100%;">Verify COD Eligibility</button>
+          </form>
+          <div id="codEligibilityResult" style="margin-top:0.75rem; font-size:0.85rem; font-weight:600;"></div>
+        </div>
+
+        <div style="background:#ffffff; border:1px solid var(--gray-200); border-radius:8px; padding:1.25rem;">
+          <h3 style="margin-bottom:0.75rem; font-size:1.05rem;">⚙️ COD Configuration</h3>
+          <form onsubmit="event.preventDefault(); updateCodConfig();">
+            <div class="form-group" style="margin-bottom:0.5rem;">
+              <label><input type="checkbox" id="codEnabledCheckbox"> Enable COD Platform-Wide</label>
+            </div>
+            <div class="form-group" style="margin-bottom:0.5rem;">
+              <label>Extra COD Fee ($)</label>
+              <input type="number" step="0.01" id="codExtraFee" class="form-control">
+            </div>
+            <div class="form-group" style="margin-bottom:0.5rem;">
+              <label>Max Order Value ($)</label>
+              <input type="number" step="0.01" id="codMaxAmount" class="form-control">
+            </div>
+            <button type="submit" class="btn btn-secondary btn-sm" style="width:100%;">Save Configuration</button>
+          </form>
+        </div>
+
+        <div style="background:#ffffff; border:1px solid var(--gray-200); border-radius:8px; padding:1.25rem;">
+          <h3 style="margin-bottom:0.75rem; font-size:1.05rem;">🤝 Record Cash Collection</h3>
+          <form onsubmit="event.preventDefault(); submitCodCollection();">
+            <div class="form-group" style="margin-bottom:0.5rem;">
+              <label>Order ID *</label>
+              <input type="number" id="codCollectOrderId" class="form-control" required value="1">
+            </div>
+            <div class="form-group" style="margin-bottom:0.5rem;">
+              <label>Collected Amount ($) *</label>
+              <input type="number" step="0.01" id="codCollectAmount" class="form-control" required value="3898.79">
+            </div>
+            <div class="form-group" style="margin-bottom:0.5rem;">
+              <label>Collected By (Agent/Courier)</label>
+              <input type="text" id="codCollectedBy" class="form-control" value="Courier Driver #12">
+            </div>
+            <button type="submit" class="btn btn-success btn-sm" style="width:100%;">Record Collection</button>
+          </form>
+        </div>
+      </div>
+
+      <h3 style="margin-bottom:0.75rem; font-size:1.05rem;">📋 COD Collections</h3>
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Order ID</th>
+              <th>Expected Amount</th>
+              <th>Collected Amount</th>
+              <th>Status</th>
+              <th>Collected By</th>
+              <th>Collected At</th>
+            </tr>
+          </thead>
+          <tbody id="codCollectionsTableBody">
+            <tr><td colspan="7">Loading collections...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- TAB 33: Shipping Order Management -->
+    <div id="tab-shipments" class="tab-panel">
+      <div class="panel-header">
+        <div>
+          <div class="panel-title">Module 33: Shipping Order Management</div>
+          <div class="panel-subtitle">Carrier assignment (FedEx, DHL, UPS, USPS), dispatch timestamps, shipping label references, and parcel status.</div>
+        </div>
+        <button class="btn btn-secondary btn-sm" onclick="loadShipmentsUI()">🔄 Refresh</button>
+      </div>
+
+      <div style="display:grid; grid-template-columns: 1fr 2fr; gap:1.5rem;">
+        <div style="background:#ffffff; border:1px solid var(--gray-200); border-radius:8px; padding:1.25rem;">
+          <h3 style="margin-bottom:0.75rem; font-size:1.05rem;">🚢 Create Shipment</h3>
+          <form onsubmit="event.preventDefault(); submitCreateShipment();">
+            <div class="form-group" style="margin-bottom:0.75rem;">
+              <label>Order ID *</label>
+              <input type="number" id="shipOrderSelectId" class="form-control" required placeholder="e.g. 1">
+            </div>
+            <div class="form-group" style="margin-bottom:0.75rem;">
+              <label>Carrier Name *</label>
+              <select id="shipCarrierName" class="form-control" required>
+                <option value="FedEx">FedEx Express</option>
+                <option value="DHL">DHL Express</option>
+                <option value="UPS">UPS Worldwide</option>
+                <option value="USPS">USPS Priority Mail</option>
+              </select>
+            </div>
+            <div class="form-group" style="margin-bottom:0.75rem;">
+              <label>Custom Tracking # (optional)</label>
+              <input type="text" id="shipCustomTracking" class="form-control" placeholder="Leave empty to auto-generate">
+            </div>
+            <button type="submit" class="btn btn-primary" style="width:100%;">Create Shipment Record</button>
+          </form>
+        </div>
+
+        <div>
+          <h3 style="margin-bottom:0.75rem; font-size:1.05rem;">📦 Active Shipments</h3>
+          <div class="table-responsive">
+            <table>
+              <thead>
+                <tr>
+                  <th>Shipment #</th>
+                  <th>Order ID</th>
+                  <th>Carrier</th>
+                  <th>Tracking Number</th>
+                  <th>Status</th>
+                  <th>Dispatched</th>
+                  <th>Label</th>
+                </tr>
+              </thead>
+              <tbody id="shipmentsTableBody">
+                <tr><td colspan="7">Loading shipments...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 34: Shipment Tracking -->
+    <div id="tab-tracking" class="tab-panel">
+      <div class="panel-header">
+        <div>
+          <div class="panel-title">Module 34: Shipment Tracking</div>
+          <div class="panel-subtitle">Live tracking checkpoints, transit checkpoint history, delivery exceptions, and milestone timestamps.</div>
+        </div>
+      </div>
+
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:1.5rem; margin-bottom:1.5rem;">
+        <div style="background:#ffffff; border:1px solid var(--gray-200); border-radius:8px; padding:1.25rem;">
+          <h3 style="margin-bottom:0.75rem; font-size:1.05rem;">📍 Track by Tracking Number</h3>
+          <div style="display:flex; gap:0.5rem; margin-bottom:1rem;">
+            <input type="text" id="trackingNumberQuery" class="form-control" placeholder="e.g. TRK-FDX-SEED1">
+            <button class="btn btn-primary btn-sm" onclick="queryTrackingEvents()">Track</button>
+          </div>
+          <div id="trackingOverviewBox" style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:6px; padding:0.75rem; font-size:0.85rem;">
+            Enter a tracking number and click Track to inspect events.
+          </div>
+        </div>
+
+        <div style="background:#ffffff; border:1px solid var(--gray-200); border-radius:8px; padding:1.25rem;">
+          <h3 style="margin-bottom:0.75rem; font-size:1.05rem;">➕ Record Tracking Event</h3>
+          <form onsubmit="event.preventDefault(); submitTrackingEvent();">
+            <div class="form-group" style="margin-bottom:0.5rem;">
+              <label>Tracking Number *</label>
+              <input type="text" id="eventTrackingNumber" class="form-control" required placeholder="e.g. TRK-FDX-SEED1">
+            </div>
+            <div class="form-group" style="margin-bottom:0.5rem;">
+              <label>Event Type</label>
+              <select id="eventStatusType" class="form-control">
+                <option value="DISPATCHED">DISPATCHED</option>
+                <option value="IN_TRANSIT">IN_TRANSIT</option>
+                <option value="OUT_FOR_DELIVERY">OUT_FOR_DELIVERY</option>
+                <option value="DELIVERED">DELIVERED</option>
+                <option value="EXCEPTION">EXCEPTION</option>
+              </select>
+            </div>
+            <div class="form-group" style="margin-bottom:0.5rem;">
+              <label>Location</label>
+              <input type="text" id="eventLocation" class="form-control" placeholder="San Francisco, CA Distribution Center">
+            </div>
+            <div class="form-group" style="margin-bottom:0.5rem;">
+              <label>Description</label>
+              <input type="text" id="eventDescription" class="form-control" placeholder="Package scanned onto delivery vehicle">
+            </div>
+            <button type="submit" class="btn btn-secondary btn-sm" style="width:100%;">Add Tracking Event</button>
+          </form>
+        </div>
+      </div>
+
+      <h3 style="margin-bottom:0.75rem; font-size:1.05rem;">📍 Milestone Checkpoint History</h3>
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th>Timestamp</th>
+              <th>Status Event</th>
+              <th>Location</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody id="trackingTimelineTableBody">
+            <tr><td colspan="4">No tracking events loaded.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- TAB 35: Delivery Management -->
+    <div id="tab-delivery" class="tab-panel">
+      <div class="panel-header">
+        <div>
+          <div class="panel-title">Module 35: Delivery Management</div>
+          <div class="panel-subtitle">Driver assignments, delivery attempts, recipient signature capture, and delivery failure exception handling.</div>
+        </div>
+        <button class="btn btn-secondary btn-sm" onclick="loadDeliveryUI()">🔄 Refresh</button>
+      </div>
+
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:1.5rem; margin-bottom:1.5rem;">
+        <div style="background:#ffffff; border:1px solid var(--gray-200); border-radius:8px; padding:1.25rem;">
+          <h3 style="margin-bottom:0.75rem; font-size:1.05rem;">🛵 Assign Delivery Driver</h3>
+          <form onsubmit="event.preventDefault(); submitDeliveryAssignment();">
+            <div class="form-group" style="margin-bottom:0.75rem;">
+              <label>Shipment ID *</label>
+              <input type="number" id="deliveryShipmentId" class="form-control" required placeholder="e.g. 1">
+            </div>
+            <div class="form-group" style="margin-bottom:0.75rem;">
+              <label>Driver Name *</label>
+              <input type="text" id="deliveryDriverName" class="form-control" required placeholder="Dave Courier">
+            </div>
+            <div class="form-group" style="margin-bottom:0.75rem;">
+              <label>Driver Phone Number</label>
+              <input type="text" id="deliveryDriverPhone" class="form-control" placeholder="+1-555-019-881">
+            </div>
+            <button type="submit" class="btn btn-primary" style="width:100%;">Assign Driver</button>
+          </form>
+        </div>
+
+        <div style="background:#ffffff; border:1px solid var(--gray-200); border-radius:8px; padding:1.25rem;">
+          <h3 style="margin-bottom:0.75rem; font-size:1.05rem;">✍️ Confirm Delivery / Log Attempt</h3>
+          <form onsubmit="event.preventDefault(); submitDeliveryAttempt(true);">
+            <div class="form-group" style="margin-bottom:0.5rem;">
+              <label>Assignment ID *</label>
+              <input type="number" id="deliveryAssignId" class="form-control" required placeholder="e.g. 1">
+            </div>
+            <div class="form-group" style="margin-bottom:0.5rem;">
+              <label>Recipient Signature Name</label>
+              <input type="text" id="deliveryRecipientName" class="form-control" placeholder="Sophia Chen">
+            </div>
+            <div class="form-group" style="margin-bottom:0.5rem;">
+              <label>Notes / Proof of Delivery</label>
+              <input type="text" id="deliveryAttemptNotes" class="form-control" placeholder="Handed directly to recipient">
+            </div>
+            <div style="display:flex; gap:0.5rem; margin-top:0.75rem;">
+              <button type="submit" class="btn btn-success btn-sm" style="flex:1;">✅ Mark Delivered</button>
+              <button type="button" class="btn btn-danger btn-sm" style="flex:1;" onclick="submitDeliveryAttempt(false)">❌ Mark Attempt Failed</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <h3 style="margin-bottom:0.75rem; font-size:1.05rem;">📋 Delivery Dispatches</h3>
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Shipment ID</th>
+              <th>Driver Name</th>
+              <th>Phone</th>
+              <th>Status</th>
+              <th>Attempts</th>
+              <th>Signed By</th>
+              <th>Delivered At</th>
+            </tr>
+          </thead>
+          <tbody id="deliveryAssignmentsTableBody">
+            <tr><td colspan="8">Loading delivery dispatches...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- TAB 36: Return Management -->
+    <div id="tab-returns" class="tab-panel">
+      <div class="panel-header">
+        <div>
+          <div class="panel-title">Module 36: Return Management (RMA)</div>
+          <div class="panel-subtitle">Customer item return requests, return eligibility validation, staff review workflow, and warehouse receipt restocking.</div>
+        </div>
+        <button class="btn btn-secondary btn-sm" onclick="loadReturnsUI()">🔄 Refresh</button>
+      </div>
+
+      <div style="display:grid; grid-template-columns: 1fr 2fr; gap:1.5rem;">
+        <div style="background:#ffffff; border:1px solid var(--gray-200); border-radius:8px; padding:1.25rem;">
+          <h3 style="margin-bottom:0.75rem; font-size:1.05rem;">↩️ Request Return</h3>
+          <form onsubmit="event.preventDefault(); submitReturnRequest();">
+            <div class="form-group" style="margin-bottom:0.75rem;">
+              <label>Delivered Order ID *</label>
+              <input type="number" id="returnOrderId" class="form-control" required value="1">
+            </div>
+            <div class="form-group" style="margin-bottom:0.75rem;">
+              <label>Order Item ID *</label>
+              <input type="number" id="returnOrderItemId" class="form-control" required value="1">
+            </div>
+            <div class="form-group" style="margin-bottom:0.75rem;">
+              <label>Quantity *</label>
+              <input type="number" id="returnQuantity" class="form-control" required value="1" min="1">
+            </div>
+            <div class="form-group" style="margin-bottom:0.75rem;">
+              <label>Item Condition</label>
+              <select id="returnConditionSelect" class="form-control">
+                <option value="UNOPENED">Unopened / Sealed Box</option>
+                <option value="OPENED_LIKE_NEW">Opened - Like New</option>
+                <option value="DEFECTIVE">Defective / Malfunctioning</option>
+                <option value="DAMAGED">Damaged in Transit</option>
+              </select>
+            </div>
+            <div class="form-group" style="margin-bottom:0.75rem;">
+              <label>Return Reason *</label>
+              <input type="text" id="returnReasonInput" class="form-control" required placeholder="e.g. Dimensions not suitable for workstation">
+            </div>
+            <button type="submit" class="btn btn-primary" style="width:100%;">Submit Return Request</button>
+          </form>
+        </div>
+
+        <div>
+          <h3 style="margin-bottom:0.75rem; font-size:1.05rem;">📋 Return Authorization (RMA) Requests</h3>
+          <div class="table-responsive">
+            <table>
+              <thead>
+                <tr>
+                  <th>Return #</th>
+                  <th>Order ID</th>
+                  <th>Reason</th>
+                  <th>Status</th>
+                  <th>Created At</th>
+                  <th>Admin Review</th>
+                  <th>Warehouse Restock</th>
+                </tr>
+              </thead>
+              <tbody id="returnsTableBody">
+                <tr><td colspan="7">Loading return requests...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 37: Exchange Management -->
+    <div id="tab-exchanges" class="tab-panel">
+      <div class="panel-header">
+        <div>
+          <div class="panel-title">Module 37: Exchange Management</div>
+          <div class="panel-subtitle">Product variation exchanges, live stock availability verification, approval workflows, and replacement dispatch.</div>
+        </div>
+        <button class="btn btn-secondary btn-sm" onclick="loadExchangesUI()">🔄 Refresh</button>
+      </div>
+
+      <div style="display:grid; grid-template-columns: 1fr 2fr; gap:1.5rem;">
+        <div style="background:#ffffff; border:1px solid var(--gray-200); border-radius:8px; padding:1.25rem;">
+          <h3 style="margin-bottom:0.75rem; font-size:1.05rem;">🔁 Request Item Exchange</h3>
+          <form onsubmit="event.preventDefault(); submitExchangeRequest();">
+            <div class="form-group" style="margin-bottom:0.75rem;">
+              <label>Order ID *</label>
+              <input type="number" id="exchangeOrderId" class="form-control" required value="1">
+            </div>
+            <div class="form-group" style="margin-bottom:0.75rem;">
+              <label>Original Order Item ID *</label>
+              <input type="number" id="exchangeOrigItemId" class="form-control" required value="1">
+            </div>
+            <div class="form-group" style="margin-bottom:0.75rem;">
+              <label>Replacement Variant ID *</label>
+              <input type="number" id="exchangeReplacementVariantId" class="form-control" required value="2">
+            </div>
+            <div class="form-group" style="margin-bottom:0.75rem;">
+              <label>Quantity *</label>
+              <input type="number" id="exchangeQuantity" class="form-control" required value="1" min="1">
+            </div>
+            <div class="form-group" style="margin-bottom:0.75rem;">
+              <label>Exchange Reason *</label>
+              <input type="text" id="exchangeReasonInput" class="form-control" required placeholder="e.g. Exchanging for alternate colorway">
+            </div>
+            <button type="submit" class="btn btn-primary" style="width:100%;">Submit Exchange Request</button>
+          </form>
+        </div>
+
+        <div>
+          <h3 style="margin-bottom:0.75rem; font-size:1.05rem;">📋 Exchange Requests</h3>
+          <div class="table-responsive">
+            <table>
+              <thead>
+                <tr>
+                  <th>Exchange #</th>
+                  <th>Order ID</th>
+                  <th>Orig Item</th>
+                  <th>Replacement Var</th>
+                  <th>Status</th>
+                  <th>Staff Review</th>
+                  <th>Dispatch Goods</th>
+                </tr>
+              </thead>
+              <tbody id="exchangesTableBody">
+                <tr><td colspan="7">Loading exchange requests...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 38: Product Reviews and Ratings -->
+    <div id="tab-reviews" class="tab-panel">
+      <div class="panel-header">
+        <div>
+          <div class="panel-title">Module 38: Product Reviews and Ratings</div>
+          <div class="panel-subtitle">Customer 1-5 star ratings, verified purchase tags, duplicate prevention, and administrative review moderation.</div>
+        </div>
+        <button class="btn btn-secondary btn-sm" onclick="loadReviewsUI()">🔄 Refresh</button>
+      </div>
+
+      <div style="display:grid; grid-template-columns: 1fr 2fr; gap:1.5rem;">
+        <div style="background:#ffffff; border:1px solid var(--gray-200); border-radius:8px; padding:1.25rem;">
+          <h3 style="margin-bottom:0.75rem; font-size:1.05rem;">⭐ Write a Product Review</h3>
+          <form onsubmit="event.preventDefault(); submitProductReview();">
+            <div class="form-group" style="margin-bottom:0.75rem;">
+              <label>Product ID *</label>
+              <input type="number" id="reviewProductId" class="form-control" required value="1">
+            </div>
+            <div class="form-group" style="margin-bottom:0.75rem;">
+              <label>Star Rating *</label>
+              <select id="reviewRatingSelect" class="form-control" required>
+                <option value="5">⭐⭐⭐⭐⭐ (5 Stars - Excellent)</option>
+                <option value="4">⭐⭐⭐⭐ (4 Stars - Good)</option>
+                <option value="3">⭐⭐⭐ (3 Stars - Average)</option>
+                <option value="2">⭐⭐ (2 Stars - Poor)</option>
+                <option value="1">⭐ (1 Star - Terrible)</option>
+              </select>
+            </div>
+            <div class="form-group" style="margin-bottom:0.75rem;">
+              <label>Review Headline *</label>
+              <input type="text" id="reviewHeadline" class="form-control" required placeholder="e.g. Exceptional noise cancellation!">
+            </div>
+            <div class="form-group" style="margin-bottom:0.75rem;">
+              <label>Detailed Comment</label>
+              <textarea id="reviewComment" class="form-control" rows="3" placeholder="Share your experience with build quality, battery life..."></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary" style="width:100%;">Submit Review</button>
+          </form>
+        </div>
+
+        <div>
+          <h3 style="margin-bottom:0.75rem; font-size:1.05rem;">💬 Reviews & Moderation Queue</h3>
+          <div class="table-responsive">
+            <table>
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Product</th>
+                  <th>Rating</th>
+                  <th>Title & Comment</th>
+                  <th>Verified</th>
+                  <th>Status</th>
+                  <th>Moderation Actions</th>
+                </tr>
+              </thead>
+              <tbody id="reviewsTableBody">
+                <tr><td colspan="7">Loading reviews...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 39: Product Questions and Answers -->
+    <div id="tab-qa" class="tab-panel">
+      <div class="panel-header">
+        <div>
+          <div class="panel-title">Module 39: Product Questions & Answers</div>
+          <div class="panel-subtitle">Customer pre-purchase questions, staff and vendor verified answers, and Q&A content moderation.</div>
+        </div>
+        <button class="btn btn-secondary btn-sm" onclick="loadQAUI()">🔄 Refresh</button>
+      </div>
+
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:1.5rem; margin-bottom:1.5rem;">
+        <div style="background:#ffffff; border:1px solid var(--gray-200); border-radius:8px; padding:1.25rem;">
+          <h3 style="margin-bottom:0.75rem; font-size:1.05rem;">❓ Ask a Product Question</h3>
+          <form onsubmit="event.preventDefault(); submitProductQuestion();">
+            <div class="form-group" style="margin-bottom:0.75rem;">
+              <label>Product ID *</label>
+              <input type="number" id="qaProductId" class="form-control" required value="1">
+            </div>
+            <div class="form-group" style="margin-bottom:0.75rem;">
+              <label>Your Question *</label>
+              <textarea id="qaQuestionText" class="form-control" rows="3" required placeholder="e.g. Does this unit include the 140W fast charger in the box?"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary btn-sm" style="width:100%;">Post Question</button>
+          </form>
+        </div>
+
+        <div style="background:#ffffff; border:1px solid var(--gray-200); border-radius:8px; padding:1.25rem;">
+          <h3 style="margin-bottom:0.75rem; font-size:1.05rem;">💡 Answer a Question (Staff / Vendor)</h3>
+          <form onsubmit="event.preventDefault(); submitProductAnswer();">
+            <div class="form-group" style="margin-bottom:0.75rem;">
+              <label>Question ID *</label>
+              <input type="number" id="qaAnswerQuestionId" class="form-control" required placeholder="e.g. 1">
+            </div>
+            <div class="form-group" style="margin-bottom:0.75rem;">
+              <label>Verified Answer *</label>
+              <textarea id="qaAnswerText" class="form-control" rows="3" required placeholder="e.g. Yes! The retail package contains the authentic 140W GaN adapter."></textarea>
+            </div>
+            <button type="submit" class="btn btn-success btn-sm" style="width:100%;">Submit Official Answer</button>
+          </form>
+        </div>
+      </div>
+
+      <h3 style="margin-bottom:0.75rem; font-size:1.05rem;">💬 Q&A Discussion Thread</h3>
+      <div id="qaThreadsContainer" style="display:flex; flex-direction:column; gap:1rem;">
+        <p style="color:#64748b;">Loading questions & answers...</p>
+      </div>
+    </div>
+
+    <!-- TAB 40: Customer Support Tickets -->
+    <div id="tab-tickets" class="tab-panel">
+      <div class="panel-header">
+        <div>
+          <div class="panel-title">Module 40: Customer Support Tickets</div>
+          <div class="panel-subtitle">Support ticket triage, order/product association, threaded communications, agent assignment, and status lifecycle.</div>
+        </div>
+        <button class="btn btn-secondary btn-sm" onclick="loadTicketsUI()">🔄 Refresh</button>
+      </div>
+
+      <div style="display:grid; grid-template-columns: 1fr 2fr; gap:1.5rem;">
+        <div style="background:#ffffff; border:1px solid var(--gray-200); border-radius:8px; padding:1.25rem;">
+          <h3 style="margin-bottom:0.75rem; font-size:1.05rem;">🎫 Open Support Ticket</h3>
+          <form onsubmit="event.preventDefault(); submitSupportTicket();">
+            <div class="form-group" style="margin-bottom:0.75rem;">
+              <label>Subject *</label>
+              <input type="text" id="ticketSubject" class="form-control" required placeholder="e.g. Invoice tax receipt request">
+            </div>
+            <div class="form-group" style="margin-bottom:0.75rem;">
+              <label>Category *</label>
+              <select id="ticketCategory" class="form-control" required>
+                <option value="GENERAL">General Inquiry</option>
+                <option value="ORDER">Order & Shipping</option>
+                <option value="PAYMENT">Billing & Payment</option>
+                <option value="RETURN">Return & Exchange</option>
+                <option value="PRODUCT">Product Specification</option>
+              </select>
+            </div>
+            <div class="form-group" style="margin-bottom:0.75rem;">
+              <label>Priority</label>
+              <select id="ticketPriority" class="form-control">
+                <option value="LOW">Low</option>
+                <option value="NORMAL" selected>Normal</option>
+                <option value="HIGH">High</option>
+                <option value="URGENT">Urgent</option>
+              </select>
+            </div>
+            <div class="form-group" style="margin-bottom:0.75rem;">
+              <label>Initial Message *</label>
+              <textarea id="ticketInitialMessage" class="form-control" rows="3" required placeholder="Please describe your question or issue in detail..."></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary" style="width:100%;">Submit Ticket</button>
+          </form>
+        </div>
+
+        <div>
+          <h3 style="margin-bottom:0.75rem; font-size:1.05rem;">📋 Support Tickets Queue</h3>
+          <div class="table-responsive">
+            <table>
+              <thead>
+                <tr>
+                  <th>Ticket #</th>
+                  <th>Subject</th>
+                  <th>Category</th>
+                  <th>Priority</th>
+                  <th>Status</th>
+                  <th>Created At</th>
+                  <th>Thread</th>
+                </tr>
+              </thead>
+              <tbody id="ticketsTableBody">
+                <tr><td colspan="7">Loading tickets...</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Thread Chat Card -->
+          <div id="ticketThreadPanel" style="display:none; margin-top:1.25rem; background:#ffffff; border:2px solid var(--primary); border-radius:8px; padding:1.25rem;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.75rem;">
+              <h4 id="threadTitle" style="color:var(--primary); font-size:1.05rem;">Ticket Discussion</h4>
+              <button class="btn btn-secondary btn-sm" onclick="document.getElementById('ticketThreadPanel').style.display='none';">✖ Close</button>
+            </div>
+            <div id="threadMessagesContainer" style="max-height:220px; overflow-y:auto; background:#f8fafc; border:1px solid #e2e8f0; border-radius:6px; padding:0.75rem; margin-bottom:0.75rem; display:flex; flex-direction:column; gap:0.5rem;"></div>
+            <div style="display:flex; gap:0.5rem;">
+              <input type="text" id="threadReplyMessage" class="form-control" placeholder="Type reply message...">
+              <button class="btn btn-primary btn-sm" onclick="submitTicketReply()">Send</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 41: Notification Management -->
+    <div id="tab-notifications" class="tab-panel">
+      <div class="panel-header">
+        <div>
+          <div class="panel-title">Module 41: In-App Notification Management</div>
+          <div class="panel-subtitle">Real-time alerts, order and payment lifecycle notifications, priority tagging, and read/unread status management.</div>
+        </div>
+        <div style="display:flex; gap:0.5rem;">
+          <button class="btn btn-primary btn-sm" onclick="showNotificationForm()">➕ Send Notification</button>
+          <button class="btn btn-outline-primary btn-sm" onclick="markAllNotificationsRead()">✔️ Mark All Read</button>
+          <button class="btn btn-secondary btn-sm" onclick="loadNotifications()">🔄 Refresh</button>
+        </div>
+      </div>
+
+      <!-- Send Notification Form (Collapsible) -->
+      <div id="notificationFormContainer" style="display:none; background:var(--white); border:1px solid var(--gray-200); border-radius:8px; padding:1.25rem; margin-bottom:1.5rem; box-shadow:var(--shadow);">
+        <h3 style="margin-bottom:1rem; color:var(--primary);">Dispatch In-App Notification</h3>
+        <form onsubmit="handleSendNotification(event)">
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Target User ID *</label>
+              <input type="number" id="notifUserId" class="form-control" required value="3">
+            </div>
+            <div class="form-group">
+              <label>Notification Type *</label>
+              <select id="notifType" class="form-control" required>
+                <option value="ORDER_UPDATE">ORDER_UPDATE</option>
+                <option value="PAYMENT_STATUS">PAYMENT_STATUS</option>
+                <option value="REFUND_STATUS">REFUND_STATUS</option>
+                <option value="INVENTORY_ALERT">INVENTORY_ALERT</option>
+                <option value="SYSTEM">SYSTEM</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Priority</label>
+              <select id="notifPriority" class="form-control">
+                <option value="NORMAL">NORMAL</option>
+                <option value="LOW">LOW</option>
+                <option value="HIGH">HIGH</option>
+                <option value="CRITICAL">CRITICAL</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group" style="margin-top:0.5rem;">
+            <label>Title *</label>
+            <input type="text" id="notifTitle" class="form-control" required placeholder="e.g. Order #1001 Confirmed">
+          </div>
+          <div class="form-group">
+            <label>Message Content *</label>
+            <textarea id="notifMessage" class="form-control" rows="2" required placeholder="Enter message details..."></textarea>
+          </div>
+          <div class="form-group">
+            <label>Action URL (Optional)</label>
+            <input type="text" id="notifActionUrl" class="form-control" placeholder="/orders/1001">
+          </div>
+          <div style="display:flex; gap:0.5rem; margin-top:0.75rem;">
+            <button type="submit" class="btn btn-success">Send Alert</button>
+            <button type="button" class="btn btn-secondary" onclick="hideNotificationForm()">Cancel</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>User ID</th>
+              <th>Type</th>
+              <th>Priority</th>
+              <th>Title & Message</th>
+              <th>Status</th>
+              <th>Date</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="notificationsTableBody">
+            <tr><td colspan="8">Loading notifications...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- TAB 42: Email & SMS Notifications -->
+    <div id="tab-messaging" class="tab-panel">
+      <div class="panel-header">
+        <div>
+          <div class="panel-title">Module 42: Email & SMS Notifications</div>
+          <div class="panel-subtitle">Provider gateway configurations, simulated dispatch (order/shipment), delivery logging, and auto-retries.</div>
+        </div>
+        <div style="display:flex; gap:0.5rem;">
+          <button class="btn btn-primary btn-sm" onclick="showSendMessageForm()">✉️ Dispatch Test Message</button>
+          <button class="btn btn-secondary btn-sm" onclick="loadMessaging()">🔄 Refresh</button>
+        </div>
+      </div>
+
+      <!-- Test Dispatch Modal -->
+      <div id="messagingFormContainer" style="display:none; background:var(--white); border:1px solid var(--gray-200); border-radius:8px; padding:1.25rem; margin-bottom:1.5rem; box-shadow:var(--shadow);">
+        <h3 style="margin-bottom:1rem; color:var(--primary);">Dispatch Email / SMS Message</h3>
+        <form onsubmit="handleSendExternalMessage(event)">
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Channel *</label>
+              <select id="msgChannel" class="form-control" required>
+                <option value="EMAIL">EMAIL</option>
+                <option value="SMS">SMS</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Recipient Address / Phone *</label>
+              <input type="text" id="msgRecipient" class="form-control" required placeholder="customer@example.com or +15551234567">
+            </div>
+            <div class="form-group">
+              <label>Template Code *</label>
+              <select id="msgTemplate" class="form-control" required>
+                <option value="ORDER_CONFIRMATION">ORDER_CONFIRMATION</option>
+                <option value="SHIPMENT_UPDATE">SHIPMENT_UPDATE</option>
+                <option value="DELIVERY_CONFIRMATION">DELIVERY_CONFIRMATION</option>
+                <option value="EMAIL_VERIFICATION">EMAIL_VERIFICATION</option>
+                <option value="PASSWORD_RESET">PASSWORD_RESET</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group" style="margin-top:0.5rem;">
+            <label>Subject (Email Only)</label>
+            <input type="text" id="msgSubject" class="form-control" placeholder="Order Confirmed - ShopSphere Pro">
+          </div>
+          <div class="form-group">
+            <label>Payload / Context (JSON)</label>
+            <textarea id="msgContext" class="form-control" rows="2">{"order_number": "ORD-2026-0001", "total_amount": 129.99}</textarea>
+          </div>
+          <div style="display:flex; gap:0.5rem; margin-top:0.75rem;">
+            <button type="submit" class="btn btn-success">Dispatch Notification</button>
+            <button type="button" class="btn btn-secondary" onclick="hideSendMessageForm()">Cancel</button>
+          </div>
+        </form>
+      </div>
+
+      <div style="display:grid; grid-template-columns: 1fr; gap:1.5rem; margin-bottom:1.5rem;">
+        <div style="background:var(--white); padding:1rem; border-radius:8px; border:1px solid var(--gray-200);">
+          <h4 style="margin-bottom:0.75rem; color:var(--gray-900);">Active Messaging Providers</h4>
+          <div id="providersList" style="display:flex; gap:1rem; flex-wrap:wrap;">Loading providers...</div>
+        </div>
+      </div>
+
+      <h4 style="margin-bottom:0.75rem; color:var(--gray-900);">Outbound Message Delivery Logs</h4>
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th>Log ID</th>
+              <th>Channel</th>
+              <th>Recipient</th>
+              <th>Template</th>
+              <th>Status</th>
+              <th>Retries</th>
+              <th>Timestamp</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="messageLogsTableBody">
+            <tr><td colspan="8">Loading message logs...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- TAB 43: Seller & Supplier Management -->
+    <div id="tab-suppliers" class="tab-panel">
+      <div class="panel-header">
+        <div>
+          <div class="panel-title">Module 43: Seller & Supplier Management</div>
+          <div class="panel-subtitle">Partner registration, enterprise vendor vetting, approval workflows, and historical compliance audits.</div>
+        </div>
+        <div style="display:flex; gap:0.5rem;">
+          <button class="btn btn-primary btn-sm" onclick="showSupplierForm()">➕ Register Supplier</button>
+          <button class="btn btn-secondary btn-sm" onclick="loadSuppliers()">🔄 Refresh</button>
+        </div>
+      </div>
+
+      <!-- Supplier Form Modal -->
+      <div id="supplierFormContainer" style="display:none; background:var(--white); border:1px solid var(--gray-200); border-radius:8px; padding:1.25rem; margin-bottom:1.5rem; box-shadow:var(--shadow);">
+        <h3 style="margin-bottom:1rem; color:var(--primary);">Onboard New Supplier / Marketplace Seller</h3>
+        <form onsubmit="handleCreateSupplier(event)">
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Company Name *</label>
+              <input type="text" id="supName" class="form-control" required placeholder="e.g. Apex Global Tech Ltd">
+            </div>
+            <div class="form-group">
+              <label>Supplier Code *</label>
+              <input type="text" id="supCode" class="form-control" required placeholder="e.g. SUP-APEX">
+            </div>
+            <div class="form-group">
+              <label>Contact Name *</label>
+              <input type="text" id="supContactName" class="form-control" required placeholder="John Vendor">
+            </div>
+          </div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Email *</label>
+              <input type="email" id="supEmail" class="form-control" required placeholder="sales@apextech.com">
+            </div>
+            <div class="form-group">
+              <label>Phone</label>
+              <input type="text" id="supPhone" class="form-control" placeholder="+1-800-555-0199">
+            </div>
+            <div class="form-group">
+              <label>Payment Terms</label>
+              <input type="text" id="supTerms" class="form-control" value="Net 30">
+            </div>
+          </div>
+          <div style="display:flex; gap:0.5rem; margin-top:0.75rem;">
+            <button type="submit" class="btn btn-success">Save Supplier</button>
+            <button type="button" class="btn btn-secondary" onclick="hideSupplierForm()">Cancel</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Code</th>
+              <th>Company Name</th>
+              <th>Contact</th>
+              <th>Email / Phone</th>
+              <th>Status</th>
+              <th>Rating</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="suppliersTableBody">
+            <tr><td colspan="8">Loading suppliers...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- TAB 44: Purchase Order Management -->
+    <div id="tab-po" class="tab-panel">
+      <div class="panel-header">
+        <div>
+          <div class="panel-title">Module 44: Purchase Order Management</div>
+          <div class="panel-subtitle">Create supplier POs, manage line items, track logistics delivery status, and receive stock into warehouses.</div>
+        </div>
+        <div style="display:flex; gap:0.5rem;">
+          <button class="btn btn-primary btn-sm" onclick="showPOForm()">➕ Create Purchase Order</button>
+          <button class="btn btn-secondary btn-sm" onclick="loadPurchaseOrders()">🔄 Refresh</button>
+        </div>
+      </div>
+
+      <!-- PO Form Modal -->
+      <div id="poFormContainer" style="display:none; background:var(--white); border:1px solid var(--gray-200); border-radius:8px; padding:1.25rem; margin-bottom:1.5rem; box-shadow:var(--shadow);">
+        <h3 style="margin-bottom:1rem; color:var(--primary);">Generate Supplier Purchase Order</h3>
+        <form onsubmit="handleCreatePO(event)">
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Supplier *</label>
+              <select id="poSupplierSelect" class="form-control" required></select>
+            </div>
+            <div class="form-group">
+              <label>Destination Warehouse *</label>
+              <select id="poWarehouseSelect" class="form-control" required></select>
+            </div>
+            <div class="form-group">
+              <label>Expected Delivery Date *</label>
+              <input type="date" id="poExpectedDate" class="form-control" required>
+            </div>
+          </div>
+          <h4 style="margin:1rem 0 0.5rem 0; font-size:0.95rem;">Line Item</h4>
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Product *</label>
+              <select id="poProductSelect" class="form-control" required></select>
+            </div>
+            <div class="form-group">
+              <label>Quantity Ordered *</label>
+              <input type="number" id="poItemQty" class="form-control" min="1" required value="20">
+            </div>
+            <div class="form-group">
+              <label>Unit Cost ($) *</label>
+              <input type="number" step="0.01" id="poItemCost" class="form-control" required value="450.00">
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Notes / Logistics Instructions</label>
+            <input type="text" id="poNotes" class="form-control" placeholder="Priority restocking for Q4">
+          </div>
+          <div style="display:flex; gap:0.5rem; margin-top:0.75rem;">
+            <button type="submit" class="btn btn-success">Issue PO</button>
+            <button type="button" class="btn btn-secondary" onclick="hidePOForm()">Cancel</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th>PO Number</th>
+              <th>Supplier</th>
+              <th>Warehouse</th>
+              <th>Total Amount</th>
+              <th>Status</th>
+              <th>Expected Date</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="poTableBody">
+            <tr><td colspan="7">Loading purchase orders...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- TAB 45: Supplier Invoice Management -->
+    <div id="tab-invoices" class="tab-panel">
+      <div class="panel-header">
+        <div>
+          <div class="panel-title">Module 45: Supplier Invoice Management</div>
+          <div class="panel-subtitle">Record supplier billing, match against Purchase Orders, track payment clearances, and prevent duplicate charges.</div>
+        </div>
+        <div style="display:flex; gap:0.5rem;">
+          <button class="btn btn-primary btn-sm" onclick="showInvoiceForm()">➕ Record Invoice</button>
+          <button class="btn btn-secondary btn-sm" onclick="loadSupplierInvoices()">🔄 Refresh</button>
+        </div>
+      </div>
+
+      <!-- Invoice Form Modal -->
+      <div id="invoiceFormContainer" style="display:none; background:var(--white); border:1px solid var(--gray-200); border-radius:8px; padding:1.25rem; margin-bottom:1.5rem; box-shadow:var(--shadow);">
+        <h3 style="margin-bottom:1rem; color:var(--primary);">Record Supplier Commercial Invoice</h3>
+        <form onsubmit="handleCreateInvoice(event)">
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Invoice Number *</label>
+              <input type="text" id="invNumber" class="form-control" required placeholder="INV-2026-XXXX">
+            </div>
+            <div class="form-group">
+              <label>Supplier *</label>
+              <select id="invSupplierSelect" class="form-control" required></select>
+            </div>
+            <div class="form-group">
+              <label>Purchase Order ID *</label>
+              <input type="number" id="invPoId" class="form-control" required value="1">
+            </div>
+          </div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Subtotal ($) *</label>
+              <input type="number" step="0.01" id="invSubtotal" class="form-control" required value="9000.00">
+            </div>
+            <div class="form-group">
+              <label>Tax Amount ($)</label>
+              <input type="number" step="0.01" id="invTax" class="form-control" value="0.00">
+            </div>
+            <div class="form-group">
+              <label>Total Amount ($) *</label>
+              <input type="number" step="0.01" id="invTotal" class="form-control" required value="9000.00">
+            </div>
+            <div class="form-group">
+              <label>Due Date *</label>
+              <input type="date" id="invDueDate" class="form-control" required>
+            </div>
+          </div>
+          <div style="display:flex; gap:0.5rem; margin-top:0.75rem;">
+            <button type="submit" class="btn btn-success">Save Invoice</button>
+            <button type="button" class="btn btn-secondary" onclick="hideInvoiceForm()">Cancel</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th>Invoice Number</th>
+              <th>Supplier</th>
+              <th>PO Ref</th>
+              <th>Total Amount</th>
+              <th>Paid Amount</th>
+              <th>Payment Status</th>
+              <th>Due Date</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="invoicesTableBody">
+            <tr><td colspan="8">Loading supplier invoices...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- TAB 46: Audit Log Management -->
+    <div id="tab-audit" class="tab-panel">
+      <div class="panel-header">
+        <div>
+          <div class="panel-title">Module 46: Audit Log Management</div>
+          <div class="panel-subtitle">Immutable administrative audit log recording all critical updates to products, pricing, inventory, and order states.</div>
+        </div>
+        <div style="display:flex; gap:0.5rem;">
+          <select id="auditEntityFilter" class="form-control" style="width:160px;" onchange="loadAuditLogs()">
+            <option value="">All Entities</option>
+            <option value="PRODUCT">PRODUCT</option>
+            <option value="PRICE">PRICE</option>
+            <option value="INVENTORY">INVENTORY</option>
+            <option value="ORDER">ORDER</option>
+            <option value="PURCHASE_ORDER">PURCHASE_ORDER</option>
+          </select>
+          <button class="btn btn-secondary btn-sm" onclick="loadAuditLogs()">🔄 Refresh</button>
+        </div>
+      </div>
+
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Timestamp</th>
+              <th>User</th>
+              <th>Action</th>
+              <th>Entity</th>
+              <th>Entity ID</th>
+              <th>IP Address</th>
+              <th>Change Details</th>
+            </tr>
+          </thead>
+          <tbody id="auditTableBody">
+            <tr><td colspan="8">Loading audit logs...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- TAB 47: Executive Dashboard -->
+    <div id="tab-dashboard" class="tab-panel">
+      <div class="panel-header">
+        <div>
+          <div class="panel-title">Module 47: Executive Dashboard & Summary APIs</div>
+          <div class="panel-subtitle">Real-time enterprise metrics: product & inventory health, order fulfillment pipeline, and revenue aggregations.</div>
+        </div>
+        <button class="btn btn-primary btn-sm" onclick="loadExecutiveDashboard()">🔄 Refresh Dashboard</button>
+      </div>
+
+      <div class="kpi-grid" id="execKpiGrid" style="margin-bottom:1.5rem;">
+        <div class="kpi-card" style="border-left-color: #6366f1;">
+          <h4>Active Products</h4>
+          <div id="dashActiveProds" class="value">-</div>
+        </div>
+        <div class="kpi-card" style="border-left-color: #10b981;">
+          <h4>Total Inventory Units</h4>
+          <div id="dashTotalStock" class="value">-</div>
+        </div>
+        <div class="kpi-card" style="border-left-color: #f59e0b;">
+          <h4>Pending Orders</h4>
+          <div id="dashPendingOrders" class="value">-</div>
+        </div>
+        <div class="kpi-card" style="border-left-color: #ec4899;">
+          <h4>Completed Orders</h4>
+          <div id="dashCompletedOrders" class="value">-</div>
+        </div>
+        <div class="kpi-card" style="border-left-color: #059669;">
+          <h4>Gross Revenue</h4>
+          <div id="dashGrossRevenue" class="value">-</div>
+        </div>
+        <div class="kpi-card" style="border-left-color: #ef4444;">
+          <h4>Low-Stock Alerts</h4>
+          <div id="dashRestockAlerts" class="value">-</div>
+        </div>
+      </div>
+
+      <div style="background:var(--white); padding:1.25rem; border-radius:8px; border:1px solid var(--gray-200); box-shadow:var(--shadow);">
+        <h4 style="margin-bottom:1rem; color:var(--gray-900);">Raw Scoped Dashboard Response (RBAC Protected)</h4>
+        <pre id="dashRawJson" style="background:var(--gray-100); padding:1rem; border-radius:6px; font-size:0.82rem; overflow-x:auto;">Click Refresh to load dashboard data...</pre>
+      </div>
+    </div>
+
+    <!-- TAB 48: Reports & Analytics -->
+    <div id="tab-analytics" class="tab-panel">
+      <div class="panel-header">
+        <div>
+          <div class="panel-title">Module 48: Reports and Analytics APIs</div>
+          <div class="panel-subtitle">Deep dive analytics: sales aggregates, inventory warehouse distribution, top-selling products, and revenue by category.</div>
+        </div>
+        <div style="display:flex; gap:0.5rem;">
+          <button class="btn btn-secondary btn-sm" onclick="loadAnalytics()">🔄 Refresh Analytics</button>
+        </div>
+      </div>
+
+      <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap:1.25rem; margin-bottom:1.5rem;">
+        <!-- Sales Card -->
+        <div style="background:var(--white); padding:1.25rem; border-radius:8px; border:1px solid var(--gray-200); box-shadow:var(--shadow);">
+          <h4 style="color:var(--primary); margin-bottom:0.75rem;">💰 Sales & Revenue Metrics</h4>
+          <div id="analyticsSalesMetrics">Loading sales...</div>
+        </div>
+
+        <!-- Inventory Card -->
+        <div style="background:var(--white); padding:1.25rem; border-radius:8px; border:1px solid var(--gray-200); box-shadow:var(--shadow);">
+          <h4 style="color:var(--primary); margin-bottom:0.75rem;">📦 Warehouse Distribution</h4>
+          <div id="analyticsInventoryMetrics">Loading inventory...</div>
+        </div>
+
+        <!-- Payment Card -->
+        <div style="background:var(--white); padding:1.25rem; border-radius:8px; border:1px solid var(--gray-200); box-shadow:var(--shadow);">
+          <h4 style="color:var(--primary); margin-bottom:0.75rem;">💳 Payment & Refund Status</h4>
+          <div id="analyticsPaymentMetrics">Loading payments...</div>
+        </div>
+      </div>
+
+      <!-- Top Selling Products Table -->
+      <div style="background:var(--white); padding:1.25rem; border-radius:8px; border:1px solid var(--gray-200); box-shadow:var(--shadow); margin-bottom:1.5rem;">
+        <h4 style="color:var(--primary); margin-bottom:0.75rem;">🏆 Top-Selling Products Performance</h4>
+        <div class="table-responsive">
+          <table>
+            <thead>
+              <tr>
+                <th>Product ID</th>
+                <th>Name</th>
+                <th>SKU</th>
+                <th>Units Sold</th>
+                <th>Total Revenue</th>
+              </tr>
+            </thead>
+            <tbody id="topProductsTableBody">
+              <tr><td colspan="5">Loading performance data...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 49: Background Tasks & Report Exports -->
+    <div id="tab-tasks" class="tab-panel">
+      <div class="panel-header">
+        <div>
+          <div class="panel-title">Module 49: Report Export and Background Tasks</div>
+          <div class="panel-subtitle">Asynchronous CSV, Excel & PDF report exports, scheduled operational summaries, and resilient job worker tracking.</div>
+        </div>
+        <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
+          <button class="btn btn-primary btn-sm" onclick="triggerExport('ORDERS', 'CSV')">📄 Export Orders (CSV)</button>
+          <button class="btn btn-primary btn-sm" onclick="triggerExport('ORDERS', 'EXCEL')">📊 Export Orders (Excel)</button>
+          <button class="btn btn-primary btn-sm" onclick="triggerExport('ORDERS', 'PDF')">📑 Export Orders (PDF)</button>
+          <button class="btn btn-secondary btn-sm" onclick="triggerSummaryTask()">⏰ Schedule Daily Summary</button>
+          <button class="btn btn-secondary btn-sm" onclick="loadBackgroundTasks()">🔄 Refresh</button>
+        </div>
+      </div>
+
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th>Job ID</th>
+              <th>Task Name</th>
+              <th>Type</th>
+              <th>Format</th>
+              <th>Status</th>
+              <th>Retries</th>
+              <th>Created At</th>
+              <th>Output / Result</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="tasksTableBody">
+            <tr><td colspan="9">Loading background tasks...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Notification Toast -->
+  <div id="toast" class="alert-toast">Notification message</div>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,308 @@
+{
+  "platform": "ShopSphere Pro",
+  "version": "1.0.0",
+  "total_modules": 50,
+  "swagger_url": "http://127.0.0.1:8000/docs",
+  "openapi_json_url": "http://127.0.0.1:8000/openapi.json",
+  "modules": {
+    "Module 1: Authentication & Authorization": {
+      "endpoint": "POST /api/v1/auth/login",
+      "summary": "Customer and employee JWT login with password verification",
+      "sample_request": {
+        "email": "admin@shopsphere.com",
+        "password": "Admin@ShopSphere2026!"
+      },
+      "sample_response": {
+        "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+        "refresh_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+        "token_type": "bearer",
+        "expires_in": 3600
+      }
+    },
+    "Module 8: Product Management": {
+      "endpoint": "POST /api/v1/products",
+      "summary": "Create product in catalog with SKU and category linking",
+      "sample_request": {
+        "name": "WH-1000XM5 Wireless Headphones",
+        "slug": "wh-1000xm5-wireless-headphones",
+        "base_sku": "WH1000XM5-BASE",
+        "base_price": 399.99,
+        "category_id": 1,
+        "brand_id": 1,
+        "is_active": true,
+        "description": "Industry-leading noise canceling headphones"
+      },
+      "sample_response": {
+        "id": 1,
+        "name": "WH-1000XM5 Wireless Headphones",
+        "base_sku": "WH1000XM5-BASE",
+        "base_price": 399.99,
+        "status": "ACTIVE",
+        "created_at": "2026-11-05T12:00:00Z"
+      }
+    },
+    "Module 17: Shopping Cart": {
+      "endpoint": "POST /api/v1/cart/items",
+      "summary": "Add product variant to customer shopping cart",
+      "sample_request": {
+        "product_id": 1,
+        "variant_id": 1,
+        "quantity": 2
+      },
+      "sample_response": {
+        "cart_id": 1,
+        "items_count": 1,
+        "subtotal": 799.98,
+        "status": "ACTIVE"
+      }
+    },
+    "Module 24: Checkout Management": {
+      "endpoint": "POST /api/v1/checkout",
+      "summary": "Execute atomic checkout with frozen address snapshot and stock hold",
+      "sample_request": {
+        "shipping_address_id": 1,
+        "billing_address_id": 1,
+        "shipping_method_code": "STANDARD_GROUND",
+        "coupon_code": "WELCOME10",
+        "notes": "Please ring doorbell on arrival"
+      },
+      "sample_response": {
+        "checkout_id": "CHK-ORD-20261105-B9A4",
+        "order_id": 1,
+        "order_number": "ORD-20261105-B9A4",
+        "status": "CONFIRMED",
+        "summary": {
+          "subtotal_amount": 1899.99,
+          "coupon_discount": 189.99,
+          "tax_amount": 136.8,
+          "shipping_amount": 0.0,
+          "grand_total": 1846.8,
+          "applied_coupon": "WELCOME10"
+        }
+      }
+    },
+    "Module 26: Order Item Fulfillment": {
+      "endpoint": "PATCH /api/v1/orders/1/items/1/fulfillment",
+      "summary": "Update fulfillment state for a specific line item",
+      "sample_request": {
+        "fulfillment_status": "PROCESSING"
+      },
+      "sample_response": {
+        "id": 1,
+        "order_id": 1,
+        "product_name": "ProBook X1 Carbon Gen 12",
+        "sku": "PBX1-G12-BASE",
+        "unit_price": 1899.99,
+        "quantity": 2,
+        "subtotal": 3799.98,
+        "fulfillment_status": "PROCESSING"
+      }
+    },
+    "Module 27: Order Status State Machine": {
+      "endpoint": "POST /api/v1/order-status/transition/1",
+      "summary": "Transition order status with permitted state validation",
+      "sample_request": {
+        "to_status": "PROCESSING",
+        "notes": "Order passed to warehouse packaging station"
+      },
+      "sample_response": {
+        "id": 1,
+        "order_number": "ORD-20261104-DEMO01",
+        "status": "PROCESSING",
+        "payment_status": "PAID"
+      }
+    },
+    "Module 28: Order Cancellation": {
+      "endpoint": "POST /api/v1/order-cancellations/1",
+      "summary": "Cancel order, release warehouse inventory, initiate refund",
+      "sample_request": {
+        "reason": "Accidental duplicate order placed",
+        "admin_notes": "Cancelled prior to dispatch"
+      },
+      "sample_response": {
+        "id": 1,
+        "order_id": 1,
+        "reason": "Accidental duplicate order placed",
+        "status": "COMPLETED",
+        "inventory_released": true,
+        "refund_initiated": true,
+        "created_at": "2026-11-05T17:40:00Z"
+      }
+    },
+    "Module 29: Payment Management (Sandbox)": {
+      "endpoint": "POST /api/v1/payments/initiate",
+      "summary": "Initiate sandbox payment with idempotency key",
+      "sample_request": {
+        "order_id": 1,
+        "payment_method": "CREDIT_CARD",
+        "idempotency_key": "IDEM-992A-443B"
+      },
+      "sample_response": {
+        "id": 1,
+        "order_id": 1,
+        "amount": 1846.8,
+        "currency": "USD",
+        "status": "PENDING",
+        "transaction_reference": "PAY-992A443B10",
+        "gateway_provider": "SANDBOX_GATEWAY"
+      }
+    },
+    "Module 31: Refund Management": {
+      "endpoint": "POST /api/v1/refunds/",
+      "summary": "Process full or partial refund against captured payment",
+      "sample_request": {
+        "payment_id": 1,
+        "amount": 250.0,
+        "reason": "Customer return authorization RMA approved"
+      },
+      "sample_response": {
+        "id": 1,
+        "payment_id": 1,
+        "amount": 250.0,
+        "status": "PROCESSED",
+        "gateway_refund_reference": "REF-SANDBOX-8819",
+        "processed_at": "2026-11-05T17:41:00Z"
+      }
+    },
+    "Module 32: Cash on Delivery Management": {
+      "endpoint": "POST /api/v1/cod/validate-eligibility",
+      "summary": "Verify postal delivery zone and order threshold eligibility",
+      "sample_request": {
+        "order_amount": 150.0,
+        "postal_code": "94107"
+      },
+      "sample_response": {
+        "is_eligible": true,
+        "extra_fee": 5.0,
+        "reason": null
+      }
+    },
+    "Module 33: Shipping Orders": {
+      "endpoint": "POST /api/v1/shipments/",
+      "summary": "Create carrier parcel shipment record and label URL",
+      "sample_request": {
+        "order_id": 1,
+        "carrier_name": "FedEx"
+      },
+      "sample_response": {
+        "id": 1,
+        "shipment_number": "SHP-SEED-1",
+        "carrier_name": "FedEx",
+        "tracking_number": "TRK-FDX-SEED1",
+        "status": "DISPATCHED",
+        "shipping_label_url": "/static/labels/SHP-SEED-1.pdf"
+      }
+    },
+    "Module 34: Shipment Tracking": {
+      "endpoint": "POST /api/v1/shipments/tracking/TRK-FDX-SEED1/events",
+      "summary": "Record transit checkpoint event milestone",
+      "sample_request": {
+        "event_type": "IN_TRANSIT",
+        "location": "San Francisco Hub, CA",
+        "description": "Scanned at regional sort facility"
+      },
+      "sample_response": {
+        "id": 1,
+        "tracking_number": "TRK-FDX-SEED1",
+        "event_type": "IN_TRANSIT",
+        "location": "San Francisco Hub, CA",
+        "timestamp": "2026-11-05T17:42:00Z"
+      }
+    },
+    "Module 35: Delivery Management": {
+      "endpoint": "POST /api/v1/shipments/deliveries/1/attempt",
+      "summary": "Log delivery attempt with recipient signature confirmation",
+      "sample_request": {
+        "is_successful": true,
+        "recipient_signature_name": "Sophia Chen",
+        "notes": "Package handed directly to recipient at front desk"
+      },
+      "sample_response": {
+        "id": 1,
+        "status": "DELIVERED",
+        "delivery_attempts": 1,
+        "recipient_signature_name": "Sophia Chen",
+        "delivered_at": "2026-11-05T17:43:00Z"
+      }
+    },
+    "Module 36: Return Management (RMA)": {
+      "endpoint": "POST /api/v1/returns/",
+      "summary": "Submit customer return request with item condition checks",
+      "sample_request": {
+        "order_id": 1,
+        "reason": "Item dimensions did not fit workstation desk",
+        "items": [
+          {
+            "order_item_id": 1,
+            "quantity": 1,
+            "item_condition": "UNOPENED"
+          }
+        ]
+      },
+      "sample_response": {
+        "id": 1,
+        "return_number": "RET-49A1C802",
+        "order_id": 1,
+        "status": "REQUESTED",
+        "created_at": "2026-11-05T17:44:00Z"
+      }
+    },
+    "Module 37: Exchange Management": {
+      "endpoint": "POST /api/v1/exchanges/",
+      "summary": "Request variant exchange with stock availability verification",
+      "sample_request": {
+        "order_id": 1,
+        "original_item_id": 1,
+        "replacement_variant_id": 2,
+        "quantity": 1,
+        "reason": "Exchanging for alternate colorway"
+      },
+      "sample_response": {
+        "id": 1,
+        "exchange_number": "EXC-8819A012",
+        "order_id": 1,
+        "original_item_id": 1,
+        "replacement_variant_id": 2,
+        "quantity": 1,
+        "status": "REQUESTED"
+      }
+    },
+    "Module 38: Product Reviews": {
+      "endpoint": "POST /api/v1/reviews/",
+      "summary": "Customer 1-5 star review submission with verified purchase badge",
+      "sample_request": {
+        "product_id": 1,
+        "rating": 5,
+        "title": "Exceptional build quality & performance!",
+        "comment": "The performance and battery life on this unit exceeded all expectations."
+      },
+      "sample_response": {
+        "id": 1,
+        "product_id": 1,
+        "rating": 5,
+        "title": "Exceptional build quality & performance!",
+        "is_verified_purchase": true,
+        "status": "APPROVED"
+      }
+    },
+    "Module 40: Customer Support Tickets": {
+      "endpoint": "POST /api/v1/support-tickets/",
+      "summary": "Create customer support ticket with priority and initial message",
+      "sample_request": {
+        "subject": "Question regarding order invoice tax breakdown",
+        "category": "PAYMENT",
+        "priority": "NORMAL",
+        "initial_message": "Could you please provide a PDF VAT receipt for corporate filing?"
+      },
+      "sample_response": {
+        "id": 1,
+        "ticket_number": "TCK-SEED-001",
+        "subject": "Question regarding order invoice tax breakdown",
+        "category": "PAYMENT",
+        "priority": "NORMAL",
+        "status": "OPEN",
+        "created_at": "2026-11-05T17:45:00Z"
+      }
+    }
+  }
+}
